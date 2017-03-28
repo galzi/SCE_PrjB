@@ -8,6 +8,7 @@
   A user will own its own private todo list. Such a list contains: list of strings, each can be marked as checked. A new bullet can be added, and exist ones can be removed. 
 * Memos
   A user will own its own private collection of notes. The user can navigate between existing notes, and add new ones, and remove existing notes. Each note contains a title and content.
+  
   With External API usage:
 * RSS Feeder
 
