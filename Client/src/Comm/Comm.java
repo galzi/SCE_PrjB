@@ -83,50 +83,24 @@ public class Comm {
         return list;
     }
 
-    public static void printHashMap(HashMap map) {
-        printHashMap(map, 0);
-    }
-
-    public static void printHashMap(HashMap map, int depth) {
-        for (Object entry : map.entrySet()) {
-            if (entry.getClass().getName().equals("HashMap")) {
-                printHashMap((HashMap) entry, depth + 1);
-            } else {
-                System.out.println(((HashMap) entry).getKey() + ": ");
-            }
-            System.out.println();
-            printHashMap(entry.getValue());
-        }
-
-        /*
-        if (map instanceof HashMap) {
-            printHashMap(map, depth + 1);
-        } else {
+    public static void printMap(Map<String, Object> m, int depth) {
+        for (Map.Entry entry : m.entrySet()) {
             for (int i = 0; i <= depth; i++) {
-                System.out.println("\t");
+                System.out.print("\t");
             }
-            System.out.println(map);
+            System.out.print(entry.getKey() + ": ");
+
+            if (entry.getValue() instanceof HashMap) {
+                printMap((Map<String, Object>) entry.getValue(), depth + 1);
+            } else {
+                System.out.println(entry.getValue());
+            }
         }
-         */
     }
 
     public static void main(String[] args) {
-        System.out.println(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
 
-        for (Map.Entry entry : map.entrySet()) {
-            /*if (entry instanceof List) {
-                for ()
-                System.out.println();
-            }*/
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-
-            //System.out.println(entry.getKey() + ", ");
-            //printHashMap(entry.getValue());
-            System.out.println(entry.getValue().getClass().getName());
-            if (entry.getValue() instanceof HashMap) {
-                main();
-            }
-        }
+        printMap(map, 0);
     }
 }
