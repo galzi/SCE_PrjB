@@ -14,7 +14,7 @@
             $this->password = $password;
             $this->dbname = $dbname;
 
-            initializeConnection();
+            self::initializeConnection();
         }
 
         public function initializeConnection() {
