@@ -7,8 +7,9 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import Comm.json.*;
-import Comm.json.stream.JsonParser;
+//import Comm.json.*;
+//import Comm.json.stream.JsonParser;
+import javax.json.*;
 
 public class Comm {
     /**
