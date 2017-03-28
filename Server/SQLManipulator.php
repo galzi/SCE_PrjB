@@ -13,6 +13,8 @@
             $this->username = $username;
             $this->password = $password;
             $this->dbname = $dbname;
+
+            initializeConnection();
         }
 
         public function initializeConnection() {
@@ -46,9 +48,9 @@
 
         }
 
-        public static function getInstance() {
+        public static function getInstance($servername = null, $username = null, $password = null, $dbname = null) {
             if (self::$instance == null) {
-                self::$instance = new SQLManipulator();
+                self::$instance = new SQLManipulator($servername, $username, $password, $dbname);
             }
             return self::$instance;
         }
