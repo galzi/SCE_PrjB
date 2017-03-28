@@ -40,7 +40,7 @@
 
 package Comm.json.stream;
 
-import javax.json.JsonException;
+import Comm.json.JsonException;
 
 /**
  * {@code JsonGenerationException} indicates an incorrect JSON is

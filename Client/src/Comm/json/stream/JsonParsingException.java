@@ -40,7 +40,7 @@
 
 package Comm.json.stream;
 
-import javax.json.JsonException;
+import Comm.json.JsonException;
 
 /**
  * {@code JsonParsingException} is used when an incorrect JSON is

@@ -40,8 +40,8 @@
 
 package Comm.json.stream;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
+import Comm.json.JsonArray;
+import Comm.json.JsonObject;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;

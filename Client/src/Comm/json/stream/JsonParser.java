@@ -46,9 +46,9 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 import java.util.Map;
 
-import javax.json.JsonValue;
-import javax.json.JsonObject;
-import javax.json.JsonArray;
+import Comm.json.JsonValue;
+import Comm.json.JsonObject;
+import Comm.json.JsonArray;
 
 /**
  * Provides forward, read-only access to JSON data in a streaming way. This

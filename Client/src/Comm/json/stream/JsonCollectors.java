@@ -47,13 +47,13 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.BiConsumer;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-import javax.json.JsonException;
+import Comm.json.Json;
+import Comm.json.JsonArray;
+import Comm.json.JsonArrayBuilder;
+import Comm.json.JsonObject;
+import Comm.json.JsonObjectBuilder;
+import Comm.json.JsonValue;
+import Comm.json.JsonException;
 
 /**
  * This class contains some implementations of {@code java.util.stream.Collector} for accumulating

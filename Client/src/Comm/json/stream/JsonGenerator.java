@@ -40,7 +40,7 @@
 
 package Comm.json.stream;
 
-import javax.json.JsonValue;
+import Comm.json.JsonValue;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.math.BigDecimal;
