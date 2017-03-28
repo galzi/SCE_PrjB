@@ -1,15 +1,12 @@
 package Comm;
 
 import java.io.*;
+import java.util.*;
+import javax.json.*;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-
-//import Comm.json.*;
-//import Comm.json.stream.JsonParser;
-import javax.json.*;
 
 public class Comm {
     /**
@@ -20,6 +17,7 @@ public class Comm {
      * @return the page's content.
      */
     public static String GetURLContent(String Url) {
+        String content = "";
         try {
             URL url = new URL(Url);
             URLConnection conn = url.openConnection();
@@ -27,7 +25,12 @@ public class Comm {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()));
 
-            return br.readLine();
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                content += line;
+            }
+            return content;
         } catch (MalformedURLException e) {
             return null;
         } catch (IOException e) {
@@ -44,7 +47,7 @@ public class Comm {
      * @param jsonObj JSON-formatted string
      * @return the data given in JSON format as a map.
      */
-    public static Map<String, Object> toMap(JsonObject jsonObj) {
+    private static Map<String, Object> toMap(JsonObject jsonObj) {
         Map<String, Object> map = new HashMap<String, Object>();
 
         Iterator<String> keysItr = jsonObj.keySet().iterator();
@@ -80,11 +83,50 @@ public class Comm {
         return list;
     }
 
+    public static void printHashMap(HashMap map) {
+        printHashMap(map, 0);
+    }
+
+    public static void printHashMap(HashMap map, int depth) {
+        for (Object entry : map.entrySet()) {
+            if (entry.getClass().getName().equals("HashMap")) {
+                printHashMap((HashMap) entry, depth + 1);
+            } else {
+                System.out.println(((HashMap) entry).getKey() + ": ");
+            }
+            System.out.println();
+            printHashMap(entry.getValue());
+        }
+
+        /*
+        if (map instanceof HashMap) {
+            printHashMap(map, depth + 1);
+        } else {
+            for (int i = 0; i <= depth; i++) {
+                System.out.println("\t");
+            }
+            System.out.println(map);
+        }
+         */
+    }
+
     public static void main(String[] args) {
+        System.out.println(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
 
         for (Map.Entry entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ", " + entry.getValue());
+            /*if (entry instanceof List) {
+                for ()
+                System.out.println();
+            }*/
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+
+            //System.out.println(entry.getKey() + ", ");
+            //printHashMap(entry.getValue());
+            System.out.println(entry.getValue().getClass().getName());
+            if (entry.getValue() instanceof HashMap) {
+                main();
+            }
         }
     }
 }
