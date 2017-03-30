@@ -17,6 +17,7 @@
             self::initializeConnection();
             if ($this->performQuery("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->dbname . "'")->num_rows != 0) {
                 $this->status = true;
+                $this->conn->select_db($this->dbname);
             }
         }
 
@@ -55,7 +56,7 @@
         }
 
         public function toJSON($queryResults) {
-            return json_encode(self::iterate($queryResults));
+            return json_encode($this->iterate($queryResults));
         }
 
         public static function getInstance($servername = null, $username = null, $password = null, $dbname = null) {

@@ -40,4 +40,6 @@
     }
 
     $SQL->closeConnection();
+
+    // var_dump($SQL->toJSON($SQL->performQuery("SELECT * FROM users"))); // testing json, to activate, first disable closeConnection statement which occures before this line
 ?>
