@@ -15,6 +15,9 @@
             $this->dbname = $dbname;
 
             self::initializeConnection();
+            if ($this->performQuery("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->dbname . "'")->num_rows != 0) {
+                $this->status = true;
+            }
         }
 
         public function initializeConnection() {
@@ -29,23 +32,30 @@
                 $this->conn->query("CREATE DATABASE " . $this->dbname);
                 $this->conn->select_db($this->dbname);
                 $this->status = true;
+                return true;
             }
+            return false;
         }
 
         public function performQuery($sql) {
             return $this->conn->query($sql);
         }
 
-        public function iterate($sql) {
-
+        public function iterate($queryResults) {
+            $arr = array();
+            while ($row = $queryResults->fetch_array(MYSQLI_ASSOC)) {
+                array_push($arr, $row);
+            }
+            $queryResults->free(); // is assigning the address and free will delete the arrays?
+            return $arr;
         }
 
         public function closeConnection() {
             $this->conn->close();
         }
 
-        public function toJSON($query) {
-
+        public function toJSON($queryResults) {
+            return json_encode(self::iterate($queryResults));
         }
 
         public static function getInstance($servername = null, $username = null, $password = null, $dbname = null) {
