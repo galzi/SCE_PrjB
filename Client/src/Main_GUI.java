@@ -17,19 +17,24 @@ public class Main_GUI extends JFrame {
 
     public Main_GUI() {
         super("Select a App");
-        this.setLayout(new FlowLayout());
+        // this.setLayout(new FlowLayout());
         this.setSize(250, 400);
 
-        for (int i = 0; i < btn.length; i++) {
-            btn[i] = new JButton(str[i]);
-            this.add(btn[i]);
+        Container contentPane = this.getContentPane();
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+
+        for (int i = 0; i < this.btn.length; i++) {
+            this.btn[i] = new JButton(this.str[i]);
+            this.btn[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.btn[i].setMaximumSize(new Dimension(Integer.MAX_VALUE, this.btn[i].getMinimumSize().height));
+            contentPane.add(this.btn[i]);
         }
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
 
-        btn[0].addActionListener(new ActionListener() {
+        this.btn[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ToDoList_GUI tdl = new ToDoList_GUI();
@@ -37,7 +42,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[1].addActionListener(new ActionListener() {
+        this.btn[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Mamo_GUI mm = new Mamo_GUI();
@@ -45,7 +50,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[2].addActionListener(new ActionListener() {
+        this.btn[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ExchangeRates_GUI er = new ExchangeRates_GUI();
@@ -53,7 +58,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[3].addActionListener(new ActionListener() {
+        this.btn[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PictureAlbum_GUI pa = new PictureAlbum_GUI();
@@ -61,7 +66,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[4].addActionListener(new ActionListener() {
+        this.btn[4].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 OnThisDay_GUI otd_main = new OnThisDay_GUI();
@@ -69,7 +74,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[5].addActionListener(new ActionListener() {
+        this.btn[5].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RSS_GUI rss = new RSS_GUI();
@@ -77,7 +82,7 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        btn[6].addActionListener(new ActionListener() {
+        this.btn[6].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 WorldClocks_GUI wc = new WorldClocks_GUI();
