@@ -1,58 +1,81 @@
 <?php
+    class uploadHandler {
+        private static $target_dir = "uploads/";
+        private $file;
 
-class uploadHandler{
-
-    private static $target_dir;
-
-    public static function setTargetDir($path){
-        self::$target_dir = $path;
-    }
-
-    public static function getFileName(){
-        return $_FILES["fileToUpload"]["name"];
-    }
-
-    static function getFileTempName(){
-        return $_FILES["fileToUpload"]["tmp_name"];
-    }
-
-    static function getFileType(){
-        return $_FILES["fileToUpload"]["type"];
-    }
-
-    static function getFileSize(){
-        return $_FILES["fileToUpload"]["size"];
-    }
-
-    static function moveDirectory(){
-        move_uploaded_file(self::getFileTempName(),self::$target_dir . basename(self::getFileName()));
-    }
-
-    static function IsAnImage()
-    {
-        $file_type = self::getFileType();
-        if ($file_type == "image/jpg" || $file_type == "image/jpeg" || $file_type == "image/gif" || $file_type == "image/png")
-            return true;
-
-        return false;
-    }
-
-    static function isFileNameExists(){
-        if(file_exists(self::$target_dir . basename(self::getFileName()))) {
-            return true;
+        public function __construct($file) {
+            $this->file = $file;
         }
-        return false;
+
+        public static function setTargetDir($path) {
+            self::$target_dir = $path;
+        }
+
+        private function getFileName() {
+            return ($this->file)["name"];
+        }
+
+        private function getFileTempName() {
+            return ($this->file)["tmp_name"];
+        }
+
+        private function getFileType() {
+            return ($this->file)["type"];
+        }
+
+        private function getFileSize() {
+            return ($this->file)["size"];
+        }
+
+        private function IsAnImage() {
+            $file_type = $this->getFileType();
+            if ($file_type == "image/jpg" || $file_type == "image/jpeg" || $file_type == "image/gif" || $file_type == "image/png")
+                return true;
+            return false;
+        }
+
+        private function isFileNameExists() {
+            if (file_exists(self::$target_dir . basename($this->getFileName()))) {
+                return true;
+            }
+            return false;
+        }
+
+        private function isLargeFile() {
+            if (uploadHandler::getFileSize() > 500000) {
+                return true;
+            }
+            return false;
+        }
+
+        private function moveDirectory() {
+            return move_uploaded_file($this->getFileTempName(), self::$target_dir . basename($this->getFileName()));
+        }
+
+        public function uploadFile() {
+            $Err = array();
+            if (!$this->IsAnImage()) {
+                array_push($Err, "Unsupported file type.");
+            }
+
+            if ($this->isFileNameExists()) {
+                array_push($Err, "File with the same name already exists.");
+            }
+
+            if ($this->isLargeFile()) {
+                array_push($Err, "File exceeded size limit.");
+            }
+
+            if (count($Err) == 0) {
+                if ($this->moveDirectory()) {
+                    return json_encode(array("Error" => "File successfully uploaded."));
+                }
+                return json_encode(array("Error" => "An error occurred while uploading the file."));
+            } else {
+                return json_encode(array("Error" => $Err));
+            }
+        }
     }
 
-    static function isLargeFile(){
-        if(uploadHandler::getFileSize()>500000)
-            return true;
-        return false;
-    }
-}
-
-uploadHandler::setTargetDir("uploads/");
-if(uploadHandler::IsAnImage() && !uploadHandler::isFileNameExists() && !uploadHandler::isLargeFile()){
-    uploadHandler::moveDirectory();
-}
+    echo (new uploadHandler($_FILES["fileToUpload"]))->uploadFile();
 ?>
