@@ -1,5 +1,7 @@
 package Comm;
 
+
+
 import java.io.*;
 import java.util.*;
 import javax.json.*;
@@ -100,6 +102,8 @@ public class Comm {
 
     public static void main(String[] args) {
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
+
+        //Main_GUI New_main_GUI =new Main_GUI();//creat a GUI window
 
         printMap(map, 0);
     }
