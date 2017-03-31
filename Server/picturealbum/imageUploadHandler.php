@@ -53,22 +53,27 @@
         }
 
         public function uploadFile() {
+            $Err = array();
             if (!$this->IsAnImage()) {
-                return json_encode(array("Error" => "Unsupported file type."));
+                array_push($Err, "Unsupported file type.");
             }
 
             if ($this->isFileNameExists()) {
-                return json_encode(array("Error" => "File with the same name already exists."));
+                array_push($Err, "File with the same name already exists.");
             }
 
             if ($this->isLargeFile()) {
-                return json_encode(array("Error" => "File exceeded size limit."));
+                array_push($Err, "File exceeded size limit.");
             }
 
-            if ($this->moveDirectory()) {
-                return json_encode(array("Error" => "File successfully uploaded."));
+            if (count($Err) == 0) {
+                if ($this->moveDirectory()) {
+                    return json_encode(array("Error" => "File successfully uploaded."));
+                }
+                return json_encode(array("Error" => "An error occurred while uploading the file."));
+            } else {
+                return json_encode(array("Error" => $Err));
             }
-            return json_encode(array("Error" => "An error occurred while uploading the file."));
         }
     }
 
