@@ -53,26 +53,30 @@
         }
 
         public function uploadFile() {
-            $Err = array();
-            if (!$this->IsAnImage()) {
-                array_push($Err, "Unsupported file type.");
-            }
-
-            if ($this->isFileNameExists()) {
-                array_push($Err, "File with the same name already exists.");
-            }
-
-            if ($this->isLargeFile()) {
-                array_push($Err, "File exceeded size limit.");
-            }
-
-            if (count($Err) == 0) {
-                if ($this->moveDirectory()) {
-                    return json_encode(array("Error" => "File successfully uploaded."));
+            if (isset($this->file)) {
+                $Err = array();
+                if (!$this->IsAnImage()) {
+                    array_push($Err, "Unsupported file type.");
                 }
-                return json_encode(array("Error" => "An error occurred while uploading the file."));
+
+                if ($this->isFileNameExists()) {
+                    array_push($Err, "File with the same name already exists.");
+                }
+
+                if ($this->isLargeFile()) {
+                    array_push($Err, "File exceeded size limit.");
+                }
+
+                if (count($Err) == 0) {
+                    if ($this->moveDirectory()) {
+                        return json_encode(array("Error" => "File successfully uploaded."));
+                    }
+                    return json_encode(array("Error" => "An error occurred while uploading the file."));
+                } else {
+                    return json_encode(array("Error" => $Err));
+                }
             } else {
-                return json_encode(array("Error" => $Err));
+                return json_encode(array("Error" => "No file was sent."));
             }
         }
     }
