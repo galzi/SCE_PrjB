@@ -8,6 +8,11 @@ import java.awt.*;
  */
 public class ExchangeRates_GUI extends JFrame {
 
+    private JTextField textField2;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JButton convertValuesButton;
+
     public ExchangeRates_GUI(){
         super("Exchange Rates");
         setLayout(new FlowLayout());

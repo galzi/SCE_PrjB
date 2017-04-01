@@ -8,6 +8,9 @@ import java.awt.*;
  */
 public class RSS_GUI extends JFrame{
 
+    private JButton addFeedButton;
+    private JButton deleteFeedButton;
+
     public RSS_GUI(){
         super("RSS");
         setLayout(new FlowLayout());

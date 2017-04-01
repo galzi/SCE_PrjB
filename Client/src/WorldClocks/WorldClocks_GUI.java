@@ -8,6 +8,8 @@ import java.awt.*;
  */
 public class WorldClocks_GUI extends JFrame {
 
+    private JComboBox comboBox1;
+
     public WorldClocks_GUI(){
 
         super("World Clocks");
