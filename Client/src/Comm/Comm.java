@@ -1,14 +1,9 @@
 package Comm;
 
-
-
 import java.io.*;
 import java.util.*;
 import javax.json.*;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 
 public class Comm {
     /**
@@ -100,8 +95,13 @@ public class Comm {
         }
     }
 
-    public static String POST(String Url, Map<String, String> m) {
-        URL url = new URL(Url);
+    public static String POST(String Url, Map<String, String> map) throws UnsupportedEncodingException, IOException {
+        URL url = null;
+        try {
+            url = new URL(Url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         Map<String,Object> params = new LinkedHashMap<>();
 
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -117,7 +117,7 @@ public class Comm {
         }
         byte[] postDataBytes = postData.toString().getBytes("UTF-8");
 
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
@@ -126,12 +126,26 @@ public class Comm {
 
         Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
+        String str = "";
         for (int c; (c = in.read()) >= 0;)
-            System.out.print((char) c);
+            str += (char) c;
+        return str;
     }
 
     public static void main(String[] args) {
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
         printMap(map, 0);
+
+        try {
+            String s = POST("http://home.dev/App/index1.php", new HashMap<String, String>() {
+                {
+                    put("username","frenki the fish");
+                    put("password","Aa123456");
+                }
+            });
+            System.out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
