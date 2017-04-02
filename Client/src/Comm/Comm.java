@@ -35,15 +35,15 @@ public class Comm {
         }
     }
 
+    /**
+     * Converts a JSON-formatted string into a map.
+     * @param JSONrawData JSON-formatted string
+     * @return the data given in JSON format as a map.
+     */
     public static Map<String, Object> toMap(String JSONrawData) {
         return toMap(Json.createReader(new StringReader(JSONrawData)).readObject());
     }
 
-    /**
-     * Converts a JSON-formatted string into a map.
-     * @param jsonObj JSON-formatted string
-     * @return the data given in JSON format as a map.
-     */
     private static Map<String, Object> toMap(JsonObject jsonObj) {
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -80,7 +80,11 @@ public class Comm {
         return list;
     }
 
-    public static void printMap(Map<String, Object> m, int depth) {
+    public static void printMap(Map<String, Object> m) {
+        printMap(m, 0);
+    }
+
+    private static void printMap(Map<String, Object> m, int depth) {
         for (Map.Entry entry : m.entrySet()) {
             for (int i = 0; i <= depth; i++) {
                 System.out.print("\t");
@@ -95,7 +99,7 @@ public class Comm {
         }
     }
 
-    public static String POST(String Url, Map<String, String> map) throws UnsupportedEncodingException, IOException {
+    public static String POST(String Url, Map<String, String> map) throws UnsupportedEncodingException, IOException { // http://stackoverflow.com/questions/4205980/java-sending-http-parameters-via-post-method-easily
         URL url = null;
         try {
             url = new URL(Url);
@@ -134,7 +138,7 @@ public class Comm {
 
     public static void main(String[] args) {
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
-        printMap(map, 0);
+        printMap(map);
 
         try {
             String s = POST("http://home.dev/App/index1.php", new HashMap<String, String>() {
