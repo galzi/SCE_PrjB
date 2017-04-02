@@ -100,11 +100,38 @@ public class Comm {
         }
     }
 
+    public static String POST(String Url, Map<String, String> m) {
+        URL url = new URL(Url);
+        Map<String,Object> params = new LinkedHashMap<>();
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            params.put(entry.getKey(), entry.getValue());
+        }
+
+        StringBuilder postData = new StringBuilder();
+        for (Map.Entry<String,Object> param : params.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
+            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append('=');
+            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+        }
+        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+        conn.setDoOutput(true);
+        conn.getOutputStream().write(postDataBytes);
+
+        Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+        for (int c; (c = in.read()) >= 0;)
+            System.out.print((char) c);
+    }
+
     public static void main(String[] args) {
         Map<String, Object> map = toMap(GetURLContent("http://www.apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&format=1"));
-
-        //Main_GUI New_main_GUI =new Main_GUI();//creat a GUI window
-
         printMap(map, 0);
     }
 }
