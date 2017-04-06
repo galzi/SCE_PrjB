@@ -69,14 +69,14 @@
 
                 if (count($Err) == 0) {
                     if ($this->moveDirectory()) {
-                        return json_encode(array("Error" => "File successfully uploaded."));
+                        return json_encode(array("status" => "Success", "message" => "File successfully uploaded."));
                     }
-                    return json_encode(array("Error" => "An error occurred while uploading the file."));
+                    return json_encode(array("status" => "Failure", "message" => "An error occurred while uploading the file."));
                 } else {
-                    return json_encode(array("Error" => $Err));
+                    return json_encode(array("status" => "Error", "message" => $Err));
                 }
             } else {
-                return json_encode(array("Error" => "No file was sent."));
+                return json_encode(array("status" => "Failure", "message" => "No file was sent."));
             }
         }
     }
