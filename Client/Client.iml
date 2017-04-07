@@ -9,5 +9,28 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="javax.json-1.0" level="project" />
     <orderEntry type="library" name="javax.json-1.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../Server/vendor/composer" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/container-interop/container-interop" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/nikic/fast-route" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../Server/vendor/composer" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/container-interop/container-interop" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/nikic/fast-route" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
