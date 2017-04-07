@@ -6,92 +6,161 @@ import RSS.RSS_GUI;
 import TodoList.ToDoList_GUI;
 import WorldClocks.WorldClocks_GUI;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Main_GUI extends JFrame {
-    private JButton[] btn = new JButton[7];
-    private String[] str = {"To Do List", "Memos", "Exchange Rates", "Picture Album", "On This Day", "RSS", "World Clocks"};
 
-    public Main_GUI() {
-        super("Select a App");
-        // this.setLayout(new FlowLayout());
-        this.setSize(250, 400);
+    private JPanel contentPane;
 
-        Container contentPane = this.getContentPane();
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-
-        for (int i = 0; i < this.btn.length; i++) {
-            this.btn[i] = new JButton(this.str[i]);
-            this.btn[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-            this.btn[i].setMaximumSize(new Dimension(Integer.MAX_VALUE, this.btn[i].getMinimumSize().height));
-            contentPane.add(this.btn[i]);
-        }
-
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.pack();
-        this.setVisible(true);
-
-        this.btn[0].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ToDoList_GUI tdl = new ToDoList_GUI();
-                tdl.setVisible(true);
-            }
-        });
-
-        this.btn[1].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Mamo_GUI mm = new Mamo_GUI();
-                mm.setVisible(true);
-            }
-        });
-
-        this.btn[2].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ExchangeRates_GUI er = new ExchangeRates_GUI();
-                er.setVisible(true);
-            }
-        });
-
-        this.btn[3].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PictureAlbum_GUI pa = new PictureAlbum_GUI();
-                pa.setVisible(true);
-            }
-        });
-
-        this.btn[4].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                OnThisDay_GUI otd_main = new OnThisDay_GUI();
-                otd_main.setVisible(true);
-            }
-        });
-
-        this.btn[5].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RSS_GUI rss = new RSS_GUI();
-                rss.setVisible(true);
-            }
-        });
-
-        this.btn[6].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                WorldClocks_GUI wc = new WorldClocks_GUI();
-                wc.setVisible(true);
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Main_GUI frame = new Main_GUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public static void main(String[] args) {
-        new Main_GUI();
+    /**
+     * Create the frame.
+     */
+    public Main_GUI() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 493, 378);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout(0, 0));
+        setContentPane(contentPane);
+
+        JLayeredPane layeredPane = new JLayeredPane();
+        contentPane.add(layeredPane, BorderLayout.CENTER);
+
+        JButton btnNewButton = new JButton("To Do List");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        ToDoList_GUI tdl=new ToDoList_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton.setBounds(164, 178, 117, 23);
+        layeredPane.add(btnNewButton);
+
+        JButton btnNewButton_1 = new JButton("Memos");
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        Mamo_GUI m=new Mamo_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_1.setBounds(164, 144, 117, 23);
+        layeredPane.add(btnNewButton_1);
+
+        JButton btnNewButton_2 = new JButton("World Clocks");
+        btnNewButton_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        WorldClocks_GUI wc=new WorldClocks_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_2.setBounds(164, 110, 117, 23);
+        layeredPane.add(btnNewButton_2);
+
+        JButton btnNewButton_3 = new JButton("RSS");
+        btnNewButton_3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        RSS_GUI rss=new RSS_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_3.setBounds(164, 212, 117, 23);
+        layeredPane.add(btnNewButton_3);
+
+        JButton btnNewButton_4 = new JButton(" On This Day");
+        btnNewButton_4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        OnThisDay_GUI otd=new OnThisDay_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_4.setBounds(164, 246, 117, 23);
+        layeredPane.add(btnNewButton_4);
+
+        JButton btnNewButton_5 = new JButton("Picture Album");
+        btnNewButton_5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_5.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        PictureAlbum_GUI pa=new PictureAlbum_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_5.setBounds(164, 76, 117, 23);
+        layeredPane.add(btnNewButton_5);
+
+        JButton btnNewButton_6 = new JButton("Exchange Rates");
+        btnNewButton_6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                btnNewButton_6.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        ExchangeRates_GUI nm=new ExchangeRates_GUI();
+                    }
+                });
+
+            }
+        });
+        btnNewButton_6.setBounds(164, 38, 117, 23);
+        layeredPane.add(btnNewButton_6);
     }
 }

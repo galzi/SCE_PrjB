@@ -1,4 +1,8 @@
 package PictureAlbum;
 
-public class PictureAlbum {
+
+
+public class PictureAlbum  {
+
+
 }
