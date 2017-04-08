@@ -23,6 +23,7 @@ public class Mamo_GUI extends JFrame{
         createANewMemoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 New_memo nm=new New_memo();
             }
         });
