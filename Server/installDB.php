@@ -9,6 +9,7 @@
 
     $app = new \Slim\App(["settings" => $config]);
 
+    $container = $app->getContainer();
     $container['db'] = function ($c) {
         $db = $c['settings']['db'];
         $pdo = new PDO("mysql:host=" . $db['host'] . ";dbname=" . $db['dbname'],
@@ -17,6 +18,22 @@
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $pdo;
     };
+
+    // $container['db']->call();
+
+    try {
+        // Get Database Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+
+        $stmt = $db->query($sql);
+        $posts = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($posts);
+    } catch (PDOException $e){
+        echo '{"error": {"text":' . $e->getMessage() . '}}';
+    }
 
     include "SQLManipulator.php";
     $SQL = SQLManipulator::getInstance('localhost', 'root', '', 'Widgets');

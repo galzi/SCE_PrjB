@@ -10,6 +10,8 @@
     }
   ],
   "require": {
-    "slim/slim": "4.x-dev"
+    "slim/slim": "4.x-dev",
+    "jeremykendall/slim-auth": "2.0.0-alpha",
+    "slim/pdo": "1.10.0"
   }
 }

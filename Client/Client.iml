@@ -14,21 +14,41 @@
         <CLASSES>
           <root url="file://$MODULE_DIR$/../Server/vendor/composer" />
           <root url="file://$MODULE_DIR$/../Server/vendor/container-interop/container-interop" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/ircmaxell/password-compat" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/jeremykendall/password-validator" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/jeremykendall/slim-auth" />
           <root url="file://$MODULE_DIR$/../Server/vendor/nikic/fast-route" />
           <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/pdo" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/wp-cli/php-cli-tools" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-authentication" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-eventmanager" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-permissions-acl" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-session" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-stdlib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
           <root url="file://$MODULE_DIR$/../Server/vendor/composer" />
           <root url="file://$MODULE_DIR$/../Server/vendor/container-interop/container-interop" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/ircmaxell/password-compat" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/jeremykendall/password-validator" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/jeremykendall/slim-auth" />
           <root url="file://$MODULE_DIR$/../Server/vendor/nikic/fast-route" />
           <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/pdo" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/wp-cli/php-cli-tools" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-authentication" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-eventmanager" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-permissions-acl" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-session" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/zendframework/zend-stdlib" />
         </SOURCES>
       </library>
     </orderEntry>
