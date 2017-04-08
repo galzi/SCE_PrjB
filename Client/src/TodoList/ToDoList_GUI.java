@@ -48,4 +48,8 @@ public class ToDoList_GUI extends JFrame {
         btnNewButton.setBounds(146, 217, 122, 23);
         layeredPane.add(btnNewButton);
     }
+
+    public static void main(String[] args) {
+        new ToDoList_GUI();
+    }
 }

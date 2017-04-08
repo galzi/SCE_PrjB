@@ -21,6 +21,7 @@
           <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/middleware" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/pdo" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
           <root url="file://$MODULE_DIR$/../Server/vendor/wp-cli/php-cli-tools" />
@@ -41,6 +42,7 @@
           <root url="file://$MODULE_DIR$/../Server/vendor/pimple/pimple" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/container" />
           <root url="file://$MODULE_DIR$/../Server/vendor/psr/http-message" />
+          <root url="file://$MODULE_DIR$/../Server/vendor/slim/middleware" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/pdo" />
           <root url="file://$MODULE_DIR$/../Server/vendor/slim/slim" />
           <root url="file://$MODULE_DIR$/../Server/vendor/wp-cli/php-cli-tools" />
@@ -52,5 +54,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="javax.json-1.0" level="project" />
   </component>
 </module>
