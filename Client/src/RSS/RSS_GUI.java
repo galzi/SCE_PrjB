@@ -41,7 +41,7 @@ public class RSS_GUI extends JFrame {
         btnAddRss.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddRss_GUI addRss  = new AddRss_GUI();
+                AddRss_GUI addRss  = AddRss_GUI.getInstance();//singleton
             }
         });
         //end adding
