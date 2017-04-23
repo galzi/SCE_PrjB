@@ -1,5 +1,7 @@
 package RSS;
 
+import javafx.scene.layout.Border;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,40 +23,36 @@ import javax.swing.JButton;
  */
 public class AddRss_GUI extends JFrame {
 
-    private JPanel contentPane;
+        private JPanel contentPane;
 
-    public AddRss_GUI() {
-        super("AddRss");
-        setLayout(new FlowLayout());
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0));
-        setContentPane(contentPane);
+        public AddRss_GUI() {
+                super("AddRss");
+                setLayout(new BorderLayout());
+                setVisible(true);
+                //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setBounds(150, 70, 300, 150);
 
-        JLayeredPane layeredPane = new JLayeredPane();
-        contentPane.add(layeredPane, BorderLayout.CENTER);
+                JPanel textPanel = new JPanel();
+                textPanel.setLayout(new FlowLayout());
+
+                JTextField urlTextField = new JTextField();
+                urlTextField.setPreferredSize(new Dimension(300,30));
+                textPanel.add(urlTextField);
+                add(textPanel,BorderLayout.CENTER);
 
 
-        JTextField urlTextField = new JTextField(20);
-        layeredPane.add(urlTextField);
+                JPanel buttonsPanel = new JPanel();
+                buttonsPanel.setLayout(new FlowLayout());
 
-        JButton btnAddRss = new JButton("OK");
+                JButton btnAddRss = new JButton("OK");
+                btnAddRss.setBounds(50,50,50,50);
+                buttonsPanel.add(btnAddRss);
 
-        btnAddRss.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                JButton btnAbort = new JButton("Abort");
+                btnAbort.setBounds(50,50,50,50);
+                buttonsPanel.add(btnAbort);
+                add(buttonsPanel,BorderLayout.SOUTH);
 
-            }
-        });
-        btnAddRss.setBounds(117, 217, 89, 23);
-        layeredPane.add(btnAddRss);
 
-        JButton btnDeleteRss = new JButton("Abort");
-        btnDeleteRss.setBounds(230, 217, 115, 23);
-        layeredPane.add(btnDeleteRss);
-    }
-
+        }
 }
