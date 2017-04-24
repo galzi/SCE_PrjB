@@ -2,6 +2,7 @@ import ExchangeRates.ExchangeRates_GUI;
 import Memos.Mamo_GUI;
 import OnThisDay.OnThisDay_GUI;
 import PictureAlbum.PictureAlbum_GUI;
+import RSS.AddRss_GUI;
 import RSS.RSS_GUI;
 import TodoList.ToDoList_GUI;
 import WorldClocks.WorldClocks_GUI;
@@ -105,8 +106,7 @@ public class Main_GUI extends JFrame {
                 btnNewButton_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
-                        RSS_GUI rss=new RSS_GUI();
+                        AddRss_GUI addRss  = AddRss_GUI.getInstance();//singleton
                     }
                 });
 
