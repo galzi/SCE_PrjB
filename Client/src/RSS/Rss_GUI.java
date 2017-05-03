@@ -31,113 +31,69 @@ public class Rss_GUI extends JFrame {
 
     private static Rss_GUI instance = null;
     private JFrame frame;
+    private /*JPanel*/Container RssGuiPanel;
+    private JScrollPane scrollRssGuiPanel;
+    private GridBagConstraints constraints;
+    private JLabel rssListLabel;
+    private DefaultListModel rssListModel;
+    private JList rssList;
+    private JScrollPane scrollRssList;
+    private JButton btnAddRss;
+    private JTextField urlTextField;
+    private JLabel rssDetailsLabel;
+
 
     public Rss_GUI() {
-        super("AddRss");
+        super("RssGUI");
         setVisible(true);
         setBounds(50, 50, 700, 500);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(525,400));
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        RssGuiPanel = new /*JPanel()*/Container();
+        RssGuiPanel.setLayout(new GridBagLayout());
+        RssGuiPanel.setPreferredSize(new Dimension(525, 400));
+        scrollRssGuiPanel = new JScrollPane(RssGuiPanel);
+        scrollRssGuiPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollRssGuiPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         //scrollPane.setBounds(50, 30, 525, 50);
-        setContentPane(scrollPane);
+        setContentPane(scrollRssGuiPanel);
 
+        rssListLabel = new JLabel("RSS list");
+        constraints = new GridBagConstraints(0,0,1,1,0.0,1.0,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),0,0);
+        RssGuiPanel.add(rssListLabel, constraints);
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        JLabel rssListLabel = new JLabel("RSS list");
-        c.weighty = 1;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.ipady = 0;
-
-        panel.add(rssListLabel,c);
-
-        DefaultListModel listModel = new DefaultListModel();
-        JList rssList = new JList(listModel);
+        rssListModel = new DefaultListModel();
+        rssList = new JList(rssListModel);
         rssList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         rssList.setVisibleRowCount(-1);
-        JScrollPane listScroller = new JScrollPane(rssList);
+        scrollRssList = new JScrollPane(rssList);
         rssList.addMouseListener(new RssListMouseListener());
-        c.ipady = 300;
-        c.ipadx = 500;
-        c.weighty = 20;
-        c.gridwidth = 2;
-        c.gridx = 0;
-        c.gridy = 1;
-        panel.add(listScroller,c);
+        constraints = new GridBagConstraints(0,1,2,1,0.0,300,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,300);
+        RssGuiPanel.add(scrollRssList, constraints);
 
-        JButton btnAddRss = new JButton("Add rss");
-        btnAddRss.setBounds(0,0,50,50);
-        c.ipady = 5;
-        c.ipadx = 5;
-        c.gridwidth=1;
-        c.gridx = 0;
-        c.gridy = 2;
-        c.weighty = 100000;
-        panel.add(btnAddRss,c);
+        btnAddRss = new JButton("Add rss");
+        btnAddRss.setBounds(0, 0, 50, 50);
+        constraints = new GridBagConstraints(0,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,5);
+        RssGuiPanel.add(btnAddRss, constraints);
 
-        JTextField urlTextField = new JTextField("http://www.");
-        urlTextField.setPreferredSize(new Dimension(300,30));
-        c.gridx=1;
-        c.gridy=2;
-        c.gridwidth = 1;
-        panel.add(urlTextField,c);
+        urlTextField = new JTextField("http://www.");
+        constraints = new GridBagConstraints(1,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
+        RssGuiPanel.add(urlTextField, constraints);
 
-        btnAddRss.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String urlFeed = urlTextField.getText();
-                try {
-                    RSSFeedParser parser = new RSSFeedParser(urlFeed);
-                    Feed feed = parser.readFeed();
-                    listModel.addElement(feed.getDescription());
-                    //System.out.println(feed);
-                    for (FeedMessage message : feed.getMessages()) {
-                        System.out.println(message);
-                    }
-                }
-                catch (Exception el){
-                    //custom title, error icon
-                    JOptionPane.showMessageDialog(frame,
-                            "This is not rss",
-                            "error",
-                            JOptionPane.ERROR_MESSAGE);
-                    urlTextField.setText("");
-                    return;
-                }
+        btnAddRss.addActionListener(new AddRssButtonListener(urlTextField,rssListModel));
 
-            }
-        });
-
-        JLabel rssDetailsLabel = new JLabel("RSS details");
-        c.gridy = 3;
-        c.gridx = 1;
-        c.weighty = 10000000;
-        panel.add(rssDetailsLabel,c);
-
+        rssDetailsLabel = new JLabel("RSS details");
+        constraints = new GridBagConstraints(0,3,1,1,0.0,10000000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
+        RssGuiPanel.add(rssDetailsLabel, constraints);
 
     }
 
-    public static Rss_GUI getInstance(){
-        if(instance == null)
+    public static Rss_GUI getInstance() {
+        if (instance == null)
             instance = new Rss_GUI();
         else
             instance.setVisible(true);
 
         return instance;
     }
-
-
-
-
-
-
 }
