@@ -60,12 +60,6 @@ public class Rss_GUI extends JFrame {
 
         panel.add(rssListLabel,c);
 
-        JButton btnDelete = new JButton("Delete rss");
-        btnDelete.setBounds(50,50,50,50);
-        c.gridx = 1;
-        c.gridy=0;
-        panel.add(btnDelete);
-
         DefaultListModel listModel = new DefaultListModel();
         JList rssList = new JList(listModel);
         rssList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
