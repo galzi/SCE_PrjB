@@ -9,6 +9,11 @@ import javafx.scene.layout.Border;
 import javax.swing.*;
 import java.awt.*;
 
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -41,20 +46,27 @@ public class Rss_GUI extends JFrame {
     private JButton btnAddRss;
     private JTextField urlTextField;
     private JLabel rssDetailsLabel;
+    private DefaultListModel feedMessageListModel;
+    private JList rssMessages;
+    private JScrollPane scrollRssMessages;
+
+    private ArrayList<Feed> feedList = new ArrayList<Feed>();
+
+    private ArrayList<String> feedLinks = new ArrayList<String>();
 
 
     public Rss_GUI() {
         super("RssGUI");
         setVisible(true);
-        setBounds(50, 50, 700, 500);
+        setBounds(50, 50, 700, 600);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         RssGuiPanel = new /*JPanel()*/Container();
         RssGuiPanel.setLayout(new GridBagLayout());
-        RssGuiPanel.setPreferredSize(new Dimension(525, 400));
+        RssGuiPanel.setPreferredSize(new Dimension(525, 525));
         scrollRssGuiPanel = new JScrollPane(RssGuiPanel);
         scrollRssGuiPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollRssGuiPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollRssGuiPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         //scrollPane.setBounds(50, 30, 525, 50);
         setContentPane(scrollRssGuiPanel);
 
@@ -67,8 +79,7 @@ public class Rss_GUI extends JFrame {
         rssList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         rssList.setVisibleRowCount(-1);
         scrollRssList = new JScrollPane(rssList);
-        rssList.addMouseListener(new RssListMouseListener());
-        constraints = new GridBagConstraints(0,1,2,1,0.0,300,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,300);
+        constraints = new GridBagConstraints(0,1,2,1,0.0,300,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,200);
         RssGuiPanel.add(scrollRssList, constraints);
 
         btnAddRss = new JButton("Add rss");
@@ -80,11 +91,61 @@ public class Rss_GUI extends JFrame {
         constraints = new GridBagConstraints(1,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
         RssGuiPanel.add(urlTextField, constraints);
 
-        btnAddRss.addActionListener(new AddRssButtonListener(urlTextField,rssListModel));
-
         rssDetailsLabel = new JLabel("RSS details");
-        constraints = new GridBagConstraints(0,3,1,1,0.0,10000000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
+        constraints = new GridBagConstraints(0,3,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
         RssGuiPanel.add(rssDetailsLabel, constraints);
+
+        feedMessageListModel = new DefaultListModel();
+        rssMessages = new JList(feedMessageListModel);
+        constraints = new GridBagConstraints(0,4,2,1,0.0,10000000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,200);
+        rssMessages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        rssMessages.setVisibleRowCount(-1);
+        scrollRssMessages = new JScrollPane(rssMessages);
+        RssGuiPanel.add(scrollRssMessages,constraints);
+
+        btnAddRss.addActionListener(new AddRssButtonListener(urlTextField,rssListModel,feedList));
+        rssList.addMouseListener(new RssListMouseListener(feedList,feedMessageListModel,rssList,feedLinks));
+        rssMessages.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(SwingUtilities.isLeftMouseButton(e)){
+                    JList rssMessagesc = (JList)e.getSource();
+                    if(e.getClickCount()==2){
+                        int row = rssMessagesc.getSelectedIndex();
+                        try {
+                            URL url = new URL(feedLinks.get(row));
+                            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop():null;
+                            desktop.browse(url.toURI());
+                        }
+                        catch(Exception el){
+
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
     }
 
