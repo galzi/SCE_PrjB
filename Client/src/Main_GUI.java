@@ -1,10 +1,10 @@
-import ExchangeRates.ExchangeRates_GUI;
 import Memos.Mamo_GUI;
 import OnThisDay.OnThisDay_GUI;
 import PictureAlbum.PictureAlbum_GUI;
 import RSS.Rss_GUI;
 import TodoList.ToDoList_GUI;
 import WorldClocks.WorldClocks_GUI;
+import ExchangeRates.*;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -153,7 +153,7 @@ public class Main_GUI extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        ExchangeRates_GUI nm=new ExchangeRates_GUI();
+                        ExchangeRates ex=new ExchangeRates();
                     }
                 });
 
