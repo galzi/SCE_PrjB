@@ -32,8 +32,7 @@ import javax.swing.JButton;
 public class Rss_GUI extends JFrame {
 
     private static Rss_GUI instance = null;
-    private JFrame frame;
-    private /*JPanel*/Container RssGuiPanel;
+    private Container RssGuiPanel;
     private JScrollPane scrollRssGuiPanel;
     private GridBagConstraints constraints;
     private JLabel rssListLabel;
@@ -57,7 +56,7 @@ public class Rss_GUI extends JFrame {
         setVisible(true);
         setBounds(50, 50, 700, 600);
 
-        RssGuiPanel = new /*JPanel()*/Container();
+        RssGuiPanel = new Container();
         RssGuiPanel.setLayout(new GridBagLayout());
         RssGuiPanel.setPreferredSize(new Dimension(525, 525));
         scrollRssGuiPanel = new JScrollPane(RssGuiPanel);
