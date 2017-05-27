@@ -56,7 +56,6 @@ public class Rss_GUI extends JFrame {
         super("RssGUI");
         setVisible(true);
         setBounds(50, 50, 700, 600);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         RssGuiPanel = new /*JPanel()*/Container();
         RssGuiPanel.setLayout(new GridBagLayout());
@@ -64,7 +63,6 @@ public class Rss_GUI extends JFrame {
         scrollRssGuiPanel = new JScrollPane(RssGuiPanel);
         scrollRssGuiPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollRssGuiPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        //scrollPane.setBounds(50, 30, 525, 50);
         setContentPane(scrollRssGuiPanel);
 
         rssListLabel = new JLabel("RSS list");
