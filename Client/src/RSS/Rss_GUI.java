@@ -9,6 +9,7 @@ import javafx.scene.layout.Border;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.*;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,10 +18,6 @@ import java.util.List;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,8 +32,7 @@ import javax.swing.JButton;
 public class Rss_GUI extends JFrame {
 
     private static Rss_GUI instance = null;
-    private JFrame frame;
-    private /*JPanel*/Container RssGuiPanel;
+    private Container RssGuiPanel;
     private JScrollPane scrollRssGuiPanel;
     private GridBagConstraints constraints;
     private JLabel rssListLabel;
@@ -59,15 +55,13 @@ public class Rss_GUI extends JFrame {
         super("RssGUI");
         setVisible(true);
         setBounds(50, 50, 700, 600);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        RssGuiPanel = new /*JPanel()*/Container();
+        RssGuiPanel = new Container();
         RssGuiPanel.setLayout(new GridBagLayout());
         RssGuiPanel.setPreferredSize(new Dimension(525, 525));
         scrollRssGuiPanel = new JScrollPane(RssGuiPanel);
         scrollRssGuiPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollRssGuiPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        //scrollPane.setBounds(50, 30, 525, 50);
         setContentPane(scrollRssGuiPanel);
 
         rssListLabel = new JLabel("RSS list");
@@ -105,7 +99,7 @@ public class Rss_GUI extends JFrame {
 
         btnAddRss.addActionListener(new AddRssButtonListener(urlTextField,rssListModel,feedList));
         rssList.addMouseListener(new RssListMouseListener(feedList,feedMessageListModel,rssList,feedLinks));
-        rssMessages.addMouseListener(new MouseListener() {
+        rssMessages.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(SwingUtilities.isLeftMouseButton(e)){
@@ -117,35 +111,11 @@ public class Rss_GUI extends JFrame {
                             Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop():null;
                             desktop.browse(url.toURI());
                         }
-                        catch(Exception el){
-
-                        }
-
+                        catch(Exception el){}
                     }
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-
 
     }
 
