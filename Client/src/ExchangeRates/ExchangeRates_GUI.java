@@ -1,0 +1,111 @@
+package ExchangeRates;
+
+// import org.json.*;
+
+import java.awt.*;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.*;
+
+import Comm.Comm;
+
+public class ExchangeRates_GUI extends JFrame {
+    private JTextField amountLbl;
+    JLabel resultLabel;
+
+    private JComboBox sourceCurr;
+    private JComboBox destinationCurr;
+    private double conversionValue = 1.0;
+    private double amount = 1.0;
+
+    private String[] currencies;
+
+    public ExchangeRates_GUI() {
+        getCurrencyList();
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        amountLbl = new JTextField();
+        amountLbl.setColumns(10);
+        sourceCurr = new JComboBox(this.currencies); // (String[]) this.currencies.toArray()
+        destinationCurr = new JComboBox(this.currencies); // (String[]) this.currencies.toArray()
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new FlowLayout());
+        dataPanel.add(amountLbl);
+        dataPanel.add(sourceCurr);
+        dataPanel.add(destinationCurr);
+        panel.add(dataPanel, BorderLayout.NORTH);
+
+        JButton convert = new JButton("Convert");
+        convert.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                String source = (String) sourceCurr.getSelectedItem();
+                String destination = (String) destinationCurr.getSelectedItem();
+
+                conversionValue = convertCurrency(source, destination);
+                amount = Double.parseDouble(amountLbl.getText());
+                resultLabel.setText(String.valueOf(amount * conversionValue));
+            }
+        });
+        panel.add(convert, BorderLayout.CENTER);
+
+        resultLabel = new JLabel(" ");
+        panel.add(resultLabel, BorderLayout.SOUTH);
+
+        this.add(panel);
+        this.pack();
+    }
+
+    public static double convertCurrency(String source, String destination) {
+        Map<String, Object> values = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&currencies=" + source + "," + destination));
+
+        /*
+        source: USD -> SOURCE
+        destination: USD -> DESTINATION
+
+        source ^ -1: SOURCE -> USD
+
+        destination of source ^ -1: SOURCE -> DESTINATION
+        (destination of source ^ -1)(x) = destination(source ^ -1(x))
+
+        functions are in form of y = ax
+        therefore, x = y / a (a != 0, always true)
+        => f(x) = a * x <=> f ^ -1(x) = (1 / a) * x
+        */
+
+        // return Double.parseDouble((String) ((Map) values.get("quotes")).get(values.get("source") + destination)) * (1 / Double.parseDouble((String) ((Map) values.get("quotes")).get(values.get("source") + source)));
+        return Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(values.get("source") + destination))) * (1 / Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(values.get("source") + source))));
+    }
+
+    public void getCurrencyList() {
+        Map<String, Object> map = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/list?access_key=5a9785bc12c18412ea75e910dd525285"));
+        Set<String> currencies = ((Map) map.get("currencies")).keySet();
+        String[] newList = new String[currencies.size() + 1];
+
+        Object[] o = currencies.toArray();
+        newList[0] = "";
+        for (int i = 0; i < o.length; i++) {
+            newList[i + 1] = (String) o[i];
+        }
+        this.currencies = newList; // (String[]) newList.toArray();
+    }
+
+
+    public static void main(String[] args) {
+        /*
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    ExchangeRates_GUI frame = new ExchangeRates_GUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        */
+        new ExchangeRates_GUI();
+    }
+}

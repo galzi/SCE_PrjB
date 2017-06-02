@@ -10,8 +10,6 @@
     }
   ],
   "require": {
-    "slim/slim": "4.x-dev",
-    "jeremykendall/slim-auth": "2.0.0-alpha",
-    "slim/pdo": "1.10.0"
+    "laravel/laravel": "5.3.x-dev"
   }
 }

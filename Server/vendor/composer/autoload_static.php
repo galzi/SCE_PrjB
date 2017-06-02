@@ -4,128 +4,224 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3b2b31cf15aac4fa8e8d878d51341719
+class ComposerStaticInit0e0296061092894dc528d33b0549663f
 {
     public static $files = array (
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
-        'be01b9b16925dcb22165c40b46681ac6' => __DIR__ . '/..' . '/wp-cli/php-cli-tools/lib/cli/cli.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
+        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
+        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'Z' => 
+        'X' => 
         array (
-            'Zend\\Stdlib\\' => 12,
-            'Zend\\Session\\' => 13,
-            'Zend\\Permissions\\Acl\\' => 21,
-            'Zend\\EventManager\\' => 18,
-            'Zend\\Authentication\\' => 20,
+            'XdgBaseDir\\' => 11,
         ),
         'S' => 
         array (
-            'Slim\\PDO\\' => 9,
-            'Slim\\' => 5,
+            'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php56\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\Translation\\' => 30,
+            'Symfony\\Component\\Routing\\' => 26,
+            'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\HttpKernel\\' => 29,
+            'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\Finder\\' => 25,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
+            'Symfony\\Component\\Debug\\' => 24,
+            'Symfony\\Component\\Console\\' => 26,
+            'SuperClosure\\' => 13,
+        ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
         array (
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Container\\' => 14,
+            'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
+            'PhpParser\\' => 10,
         ),
-        'J' => 
+        'M' => 
         array (
-            'JeremyKendall\\Slim\\Auth\\' => 24,
+            'Monolog\\' => 8,
+        ),
+        'L' => 
+        array (
+            'League\\Flysystem\\' => 17,
         ),
         'I' => 
         array (
-            'Interop\\Container\\' => 18,
+            'Illuminate\\' => 11,
         ),
-        'F' => 
+        'D' => 
         array (
-            'FastRoute\\' => 10,
+            'Dotenv\\' => 7,
+        ),
+        'C' => 
+        array (
+            'Cron\\' => 5,
+            'ClassPreloader\\' => 15,
+            'Carbon\\' => 7,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Zend\\Stdlib\\' => 
+        'XdgBaseDir\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-stdlib/src',
+            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
         ),
-        'Zend\\Session\\' => 
+        'Symfony\\Polyfill\\Util\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-session/src',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
         ),
-        'Zend\\Permissions\\Acl\\' => 
+        'Symfony\\Polyfill\\Php56\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-permissions-acl/src',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
         ),
-        'Zend\\EventManager\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-eventmanager/src',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Zend\\Authentication\\' => 
+        'Symfony\\Component\\VarDumper\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-authentication/src',
+            0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Slim\\PDO\\' => 
+        'Symfony\\Component\\Translation\\' => 
         array (
-            0 => __DIR__ . '/..' . '/slim/pdo/src/PDO',
+            0 => __DIR__ . '/..' . '/symfony/translation',
         ),
-        'Slim\\' => 
+        'Symfony\\Component\\Routing\\' => 
         array (
-            0 => __DIR__ . '/..' . '/slim/slim/Slim',
+            0 => __DIR__ . '/..' . '/symfony/routing',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Symfony\\Component\\Process\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/symfony/process',
         ),
-        'Psr\\Container\\' => 
+        'Symfony\\Component\\HttpKernel\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
+            0 => __DIR__ . '/..' . '/symfony/http-kernel',
         ),
-        'JeremyKendall\\Slim\\Auth\\' => 
+        'Symfony\\Component\\HttpFoundation\\' => 
         array (
-            0 => __DIR__ . '/..' . '/jeremykendall/slim-auth/src',
+            0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
-        'Interop\\Container\\' => 
+        'Symfony\\Component\\Finder\\' => 
         array (
-            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
+            0 => __DIR__ . '/..' . '/symfony/finder',
         ),
-        'FastRoute\\' => 
+        'Symfony\\Component\\EventDispatcher\\' => 
         array (
-            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'SuperClosure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
+        'Psy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'League\\Flysystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem/src',
+        ),
+        'Illuminate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
+        'ClassPreloader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
+        ),
+        'Carbon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/laravel/app',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'c' => 
-        array (
-            'cli' => 
-            array (
-                0 => __DIR__ . '/..' . '/wp-cli/php-cli-tools/lib',
-            ),
-        ),
-        'P' => 
-        array (
-            'Pimple' => 
-            array (
-                0 => __DIR__ . '/..' . '/pimple/pimple/src',
-            ),
-        ),
         'J' => 
         array (
-            'JeremyKendall\\Password\\' => 
+            'JakubOnderka\\PhpConsoleHighlighter' => 
             array (
-                0 => __DIR__ . '/..' . '/jeremykendall/password-validator/src',
+                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
+            ),
+            'JakubOnderka\\PhpConsoleColor' => 
+            array (
+                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
             ),
         ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'CreatePasswordResetsTable' => __DIR__ . '/..' . '/laravel/laravel/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateUsersTable' => __DIR__ . '/..' . '/laravel/laravel/database/migrations/2014_10_12_000000_create_users_table.php',
+        'DatabaseSeeder' => __DIR__ . '/..' . '/laravel/laravel/database/seeds/DatabaseSeeder.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3b2b31cf15aac4fa8e8d878d51341719::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3b2b31cf15aac4fa8e8d878d51341719::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3b2b31cf15aac4fa8e8d878d51341719::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0e0296061092894dc528d33b0549663f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0e0296061092894dc528d33b0549663f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit0e0296061092894dc528d33b0549663f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit0e0296061092894dc528d33b0549663f::$classMap;
 
         }, null, ClassLoader::class);
     }

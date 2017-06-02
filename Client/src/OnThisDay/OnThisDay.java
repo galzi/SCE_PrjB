@@ -26,7 +26,7 @@ public class OnThisDay extends JFrame {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> lst = new ArrayList<>();
+        ArrayList<String> lst = new ArrayList<String>();
         for (int i = 1; i <= 3; i++) {
             lst.add(((Integer) i).toString ());
         }
