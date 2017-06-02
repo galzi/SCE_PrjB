@@ -59,7 +59,7 @@ public class ExchangeRates_GUI extends JFrame {
     }
 
     public static double convertCurrency(String source, String destination) {
-        Map<String, Object> values = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&currencies=" + source + "," + destination));
+        Map<String, Object> values = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&currencies=" + source.split(":")[0] + "," + destination.split(":")[0]));
 
         /*
         source: USD -> SOURCE
@@ -70,28 +70,27 @@ public class ExchangeRates_GUI extends JFrame {
         destination of source ^ -1: SOURCE -> DESTINATION
         (destination of source ^ -1)(x) = destination(source ^ -1(x))
 
-        functions are in form of y = ax
+        functions are in form of y = ax (bijectional)
         therefore, x = y / a (a != 0, always true)
         => f(x) = a * x <=> f ^ -1(x) = (1 / a) * x
         */
 
-        // return Double.parseDouble((String) ((Map) values.get("quotes")).get(values.get("source") + destination)) * (1 / Double.parseDouble((String) ((Map) values.get("quotes")).get(values.get("source") + source)));
-        return Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(values.get("source") + destination))) * (1 / Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(values.get("source") + source))));
+        return Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")).split(":")[0] + destination.split(":")[0]))) * (1 / Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")).split(":")[0] + source.split(":")[0]))));
     }
 
     public void getCurrencyList() {
-        Map<String, Object> map = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/list?access_key=5a9785bc12c18412ea75e910dd525285"));
-        Set<String> currencies = ((Map) map.get("currencies")).keySet();
-        String[] newList = new String[currencies.size() + 1];
+        Map<String, Object> map = (Map) Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/list?access_key=5a9785bc12c18412ea75e910dd525285")).get("currencies");
+        String[] newList = new String[map.size() + 1];
 
-        Object[] o = currencies.toArray();
         newList[0] = "";
-        for (int i = 0; i < o.length; i++) {
-            newList[i + 1] = (String) o[i];
-        }
-        this.currencies = newList; // (String[]) newList.toArray();
-    }
+        int i = 0;
 
+        for (Map.Entry<String, Object> o : map.entrySet()) {
+            newList[i++ + 1] = o.getKey() + ": " + o.getValue();
+        }
+
+        this.currencies = newList;
+    }
 
     public static void main(String[] args) {
         /*
