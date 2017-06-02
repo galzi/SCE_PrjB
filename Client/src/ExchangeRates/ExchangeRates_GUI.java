@@ -21,6 +21,7 @@ public class ExchangeRates_GUI extends JFrame {
     private double amount = 1.0;
 
     private String[] currencies;
+    private Map<String, String> toAcronym = new HashMap<>();
 
     public ExchangeRates_GUI() {
         getCurrencyList();
@@ -41,8 +42,8 @@ public class ExchangeRates_GUI extends JFrame {
         JButton convert = new JButton("Convert");
         convert.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                String source = (String) sourceCurr.getSelectedItem();
-                String destination = (String) destinationCurr.getSelectedItem();
+                String source = toAcronym.get((String) sourceCurr.getSelectedItem());
+                String destination = toAcronym.get((String) destinationCurr.getSelectedItem());
 
                 conversionValue = convertCurrency(source, destination);
                 amount = Double.parseDouble(amountLbl.getText());
@@ -59,7 +60,7 @@ public class ExchangeRates_GUI extends JFrame {
     }
 
     public static double convertCurrency(String source, String destination) {
-        Map<String, Object> values = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&currencies=" + source.split(":")[0] + "," + destination.split(":")[0]));
+        Map<String, Object> values = Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/live?access_key=5a9785bc12c18412ea75e910dd525285&currencies=" + source + "," + destination));
 
         /*
         source: USD -> SOURCE
@@ -70,12 +71,12 @@ public class ExchangeRates_GUI extends JFrame {
         destination of source ^ -1: SOURCE -> DESTINATION
         (destination of source ^ -1)(x) = destination(source ^ -1(x))
 
-        functions are in form of y = ax (bijectional)
+        functions are in form of y = ax (bijective function)
         therefore, x = y / a (a != 0, always true)
         => f(x) = a * x <=> f ^ -1(x) = (1 / a) * x
         */
 
-        return Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")).split(":")[0] + destination.split(":")[0]))) * (1 / Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")).split(":")[0] + source.split(":")[0]))));
+        return Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")) + destination))) * (1 / Double.parseDouble(String.valueOf(((Map) values.get("quotes")).get(String.valueOf(values.get("source")) + source))));
     }
 
     public void getCurrencyList() {
@@ -86,25 +87,14 @@ public class ExchangeRates_GUI extends JFrame {
         int i = 0;
 
         for (Map.Entry<String, Object> o : map.entrySet()) {
-            newList[i++ + 1] = o.getKey() + ": " + o.getValue();
+            newList[i++ + 1] = String.valueOf(o.getValue());
+            this.toAcronym.put(String.valueOf(o.getValue()), o.getKey());
         }
 
         this.currencies = newList;
     }
 
     public static void main(String[] args) {
-        /*
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ExchangeRates_GUI frame = new ExchangeRates_GUI();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        */
         new ExchangeRates_GUI();
     }
 }
