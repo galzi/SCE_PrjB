@@ -87,5 +87,6 @@
     <orderEntry type="library" name="javax.json-1.0" level="project" />
     <orderEntry type="library" name="json-20160810" level="project" />
     <orderEntry type="library" name="javax.json-1.0" level="project" />
+    <orderEntry type="library" name="jsoup-1.10.2" level="project" />
   </component>
 </module>
