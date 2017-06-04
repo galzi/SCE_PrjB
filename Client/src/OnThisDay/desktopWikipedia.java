@@ -7,6 +7,10 @@
 
  */
 
+package OnThisDay;
+
+import OnThisDay.functions;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -23,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import static java.util.stream.Collectors.toMap;
+// import static java.util.stream.Collectors.toMap;
 
 public class desktopWikipedia {
 	public static void main(String[] args) {
@@ -51,7 +55,7 @@ public class desktopWikipedia {
 		final JTextField searchQuery2 = new JTextField("month");
 		searchQuery2.setPreferredSize(new Dimension(50, 20));
 		
-		 JTextArea results = new JTextArea();
+		 final JTextArea results = new JTextArea();
 		results.setLineWrap(true);
 		results.setWrapStyleWord(true);
 		
@@ -60,9 +64,9 @@ public class desktopWikipedia {
 		scrollResults.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollResults.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
-		JButton searchButton1 = new JButton("Births");
-		JButton searchButton2 = new JButton("Deaths");
-		JButton searchButton3 = new JButton("Events");
+		final JButton searchButton1 = new JButton("Births");
+		final JButton searchButton2 = new JButton("Deaths");
+		final JButton searchButton3 = new JButton("Events");
 		searchButton1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

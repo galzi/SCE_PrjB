@@ -5,38 +5,34 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/container-interop/container-interop" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/ircmaxell/password-compat" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/jeremykendall/password-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/jeremykendall/slim-auth" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/nikic/fast-route" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/pimple/pimple" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/slim/pdo" />
       <excludeFolder url="file://$MODULE_DIR$/Server/vendor/slim/slim" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/wp-cli/php-cli-tools" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/zendframework/zend-authentication" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/zendframework/zend-eventmanager" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/zendframework/zend-permissions-acl" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/zendframework/zend-session" />
+      <excludeFolder url="file://$MODULE_DIR$/Server/vendor/zendframework/zend-stdlib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/composer.phar/" />
-          <root url="phar://$MODULE_DIR$/Laravel/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.0.phar/" />
           <root url="phar://$MODULE_DIR$/Laravel/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/composer.phar/" />
-          <root url="phar://$MODULE_DIR$/Laravel/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.0.phar/" />
           <root url="phar://$MODULE_DIR$/Laravel/composer.phar/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="json-20160810" level="project" />
-    <orderEntry type="module-library">
-      <library name="PHP" type="php">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/Server/vendor/composer" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/Server/vendor/composer" />
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

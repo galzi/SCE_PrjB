@@ -6,6 +6,8 @@
  *
  */
 
+package OnThisDay;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,12 +21,12 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.swing.JTextArea;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+//import com.google.gson.JsonArray;
+//import com.google.gson.JsonElement;
+//import com.google.gson.JsonParser;
 
 public class functions {
-	protected void accessWikipedia(String searchTerm1,String searchTerm2, JTextArea results,String action) {
+	public void accessWikipedia(String searchTerm1, String searchTerm2, JTextArea results, String action) {
 		results.setText("");
 
 			Map<String, Object> map = toMap(GetURLContent("http://history.muffinlabs.com/date/" + searchTerm1 + "/" + searchTerm2 + '"'));

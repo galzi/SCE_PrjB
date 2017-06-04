@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
@@ -19,14 +16,13 @@ import org.jsoup.select.Elements;
 public class HttpUrlConnectionExample {
 
     private List<String> cookies;
-    private HttpsURLConnection conn;
+    private HttpURLConnection conn;
 
     private final String USER_AGENT = "Mozilla/5.0";
 
-    public static void main(String[] args) throws Exception {
+    public static void performLogin(String username, String password) throws Exception {
 
-        String url = "https://accounts.google.com/ServiceLoginAuth";
-        String gmail = "https://mail.google.com/mail/";
+        String url = "http://localhost/app/Server/login.php";
 
         HttpUrlConnectionExample http = new HttpUrlConnectionExample();
 
@@ -35,21 +31,22 @@ public class HttpUrlConnectionExample {
 
         // 1. Send a "GET" request, so that you can extract the form's data.
         String page = http.GetPageContent(url);
-        String postParams = http.getFormParams(page, "username@gmail.com", "password");
+        // String postParams = http.getFormParams(page, "username@gmail.com", "password");
+        String postParams = "username=" + username + "&password=" + password;
 
         // 2. Construct above post's content and then send a POST request for
         // authentication
         http.sendPost(url, postParams);
 
         // 3. success then go to gmail.
-        String result = http.GetPageContent(gmail);
-        System.out.println(result);
+        //String result = http.GetPageContent(url);
+        //System.out.println(result);
     }
 
     private void sendPost(String url, String postParams) throws Exception {
 
         URL obj = new URL(url);
-        conn = (HttpsURLConnection) obj.openConnection();
+        conn = (HttpURLConnection) obj.openConnection();
 
         // Acts like a browser
         conn.setUseCaches(false);
@@ -59,8 +56,10 @@ public class HttpUrlConnectionExample {
         conn.setRequestProperty("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        for (String cookie : this.cookies) {
-            conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
+        if (cookies != null) {
+            for (String cookie : this.cookies) {
+                conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
+            }
         }
         conn.setRequestProperty("Connection", "keep-alive");
         conn.setRequestProperty("Referer", "https://accounts.google.com/ServiceLoginAuth");
@@ -90,14 +89,14 @@ public class HttpUrlConnectionExample {
             response.append(inputLine);
         }
         in.close();
-        // System.out.println(response.toString());
+        System.out.println(response.toString());
 
     }
 
     private String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
-        conn = (HttpsURLConnection) obj.openConnection();
+        conn = (HttpURLConnection) obj.openConnection();
 
         // default is GET
         conn.setRequestMethod("GET");

@@ -21,7 +21,7 @@ public class ExchangeRates_GUI extends JFrame {
     private double amount = 1.0;
 
     private String[] currencies;
-    private Map<String, String> toAcronym = new HashMap<>();
+    private Map<String, String> toAcronym = new HashMap<String, String>();
 
     public ExchangeRates_GUI() {
         getCurrencyList();

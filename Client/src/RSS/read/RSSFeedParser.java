@@ -60,39 +60,38 @@ public class RSSFeedParser {
                 if (event.isStartElement()) {
                     String localPart = event.asStartElement().getName()
                             .getLocalPart();
-                    switch (localPart) {
-                        case ITEM:
-                            if (isFeedHeader) {
-                                isFeedHeader = false;
-                                feed = new Feed(title, link, description, language,
-                                        copyright, pubdate);
-                            }
-                            event = eventReader.nextEvent();
-                            break;
-                        case TITLE:
-                            title = getCharacterData(event, eventReader);
-                            break;
-                        case DESCRIPTION:
-                            description = getCharacterData(event, eventReader);
-                            break;
-                        case LINK:
-                            link = getCharacterData(event, eventReader);
-                            break;
-                        case GUID:
-                            guid = getCharacterData(event, eventReader);
-                            break;
-                        case LANGUAGE:
-                            language = getCharacterData(event, eventReader);
-                            break;
-                        case AUTHOR:
-                            author = getCharacterData(event, eventReader);
-                            break;
-                        case PUB_DATE:
-                            pubdate = getCharacterData(event, eventReader);
-                            break;
-                        case COPYRIGHT:
-                            copyright = getCharacterData(event, eventReader);
-                            break;
+                    if (localPart.equals(ITEM)) {
+                        if (isFeedHeader) {
+                            isFeedHeader = false;
+                            feed = new Feed(title, link, description, language,
+                                    copyright, pubdate);
+                        }
+                        event = eventReader.nextEvent();
+
+                    } else if (localPart.equals(TITLE)) {
+                        title = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(DESCRIPTION)) {
+                        description = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(LINK)) {
+                        link = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(GUID)) {
+                        guid = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(LANGUAGE)) {
+                        language = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(AUTHOR)) {
+                        author = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(PUB_DATE)) {
+                        pubdate = getCharacterData(event, eventReader);
+
+                    } else if (localPart.equals(COPYRIGHT)) {
+                        copyright = getCharacterData(event, eventReader);
+
                     }
                 } else if (event.isEndElement()) {
                     if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
