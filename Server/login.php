@@ -11,9 +11,11 @@
         if (sizeof($SQL->iterate($query)) == 1) {
             session_start();
             $_SESSION["username"] = $_POST["username"];
-            echo "{loginStatus: SUCCESS}";
+            // echo "{loginStatus: 'SUCCESS'}";
+            echo json_encode(array("loginStatus" => "SUCCESS"));
         } else {
-            echo "{loginStatus: FAILURE}";
+            // echo "{loginStatus: 'FAILURE'}";
+            echo json_encode(array("loginStatus" => "FAILURE"));
             die();
         }
     }

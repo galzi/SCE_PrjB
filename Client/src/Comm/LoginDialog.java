@@ -6,13 +6,7 @@ import java.util.Hashtable;
 
 public class LoginDialog {
     public LoginDialog() {
-        HttpUrlConnectionExample http = new HttpUrlConnectionExample();
-        Hashtable<String, String> info = login(new JFrame());
-        try {
-            HttpUrlConnectionExample.performLogin(info.get("user"), info.get("pass"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     public Hashtable<String, String> login(JFrame frame) {

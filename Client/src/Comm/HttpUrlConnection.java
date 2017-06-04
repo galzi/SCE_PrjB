@@ -3,52 +3,32 @@ package Comm;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.List;
-import javax.net.ssl.HttpsURLConnection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-public class HttpUrlConnectionExample {
+public class HttpUrlConnection {
 
-    private List<String> cookies;
-    private HttpURLConnection conn;
+    private static List<String> cookies;
+    private static HttpURLConnection conn;
 
-    private final String USER_AGENT = "Mozilla/5.0";
+    private static final String USER_AGENT = "Mozilla/5.0";
 
-    public static void performLogin(String username, String password) throws Exception {
+    public static String performLogin(String username, String password) throws Exception {
 
         String url = "http://localhost/app/Server/login.php";
 
-        HttpUrlConnectionExample http = new HttpUrlConnectionExample();
-
-        // make sure cookies is turn on
+        HttpUrlConnection http = new HttpUrlConnection();
         CookieHandler.setDefault(new CookieManager());
-
-        // 1. Send a "GET" request, so that you can extract the form's data.
-        String page = http.GetPageContent(url);
-        // String postParams = http.getFormParams(page, "username@gmail.com", "password");
+        // String page = http.GetPageContent(url);
         String postParams = "username=" + username + "&password=" + password;
-
-        // 2. Construct above post's content and then send a POST request for
-        // authentication
-        http.sendPost(url, postParams);
-
-        // 3. success then go to gmail.
-        //String result = http.GetPageContent(url);
-        //System.out.println(result);
+        return http.sendPost(url, postParams);
     }
 
-    private void sendPost(String url, String postParams) throws Exception {
+    private static String sendPost(String url, String postParams) throws Exception {
 
         URL obj = new URL(url);
         conn = (HttpURLConnection) obj.openConnection();
 
-        // Acts like a browser
         conn.setUseCaches(false);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Host", "accounts.google.com");
@@ -57,7 +37,7 @@ public class HttpUrlConnectionExample {
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         if (cookies != null) {
-            for (String cookie : this.cookies) {
+            for (String cookie : HttpUrlConnection.cookies) {
                 conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
             }
         }
@@ -69,7 +49,6 @@ public class HttpUrlConnectionExample {
         conn.setDoOutput(true);
         conn.setDoInput(true);
 
-        // Send post request
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
         wr.writeBytes(postParams);
         wr.flush();
@@ -90,26 +69,23 @@ public class HttpUrlConnectionExample {
         }
         in.close();
         System.out.println(response.toString());
-
+        return response.toString();
     }
 
-    private String GetPageContent(String url) throws Exception {
+    private static String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
         conn = (HttpURLConnection) obj.openConnection();
 
-        // default is GET
         conn.setRequestMethod("GET");
-
         conn.setUseCaches(false);
 
-        // act like a browser
         conn.setRequestProperty("User-Agent", USER_AGENT);
         conn.setRequestProperty("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         if (cookies != null) {
-            for (String cookie : this.cookies) {
+            for (String cookie : HttpUrlConnection.cookies) {
                 conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
             }
         }
@@ -127,53 +103,16 @@ public class HttpUrlConnectionExample {
         }
         in.close();
 
-        // Get the response cookies
         setCookies(conn.getHeaderFields().get("Set-Cookie"));
 
         return response.toString();
-
     }
 
-    public String getFormParams(String html, String username, String password)
-            throws UnsupportedEncodingException {
-
-        System.out.println("Extracting form's data...");
-
-        Document doc = Jsoup.parse(html);
-
-        // Google form id
-        Element loginform = doc.getElementById("gaia_loginform");
-        Elements inputElements = loginform.getElementsByTag("input");
-        List<String> paramList = new ArrayList<String>();
-        for (Element inputElement : inputElements) {
-            String key = inputElement.attr("name");
-            String value = inputElement.attr("value");
-
-            if (key.equals("Email"))
-                value = username;
-            else if (key.equals("Passwd"))
-                value = password;
-            paramList.add(key + "=" + URLEncoder.encode(value, "UTF-8"));
-        }
-
-        // build parameters list
-        StringBuilder result = new StringBuilder();
-        for (String param : paramList) {
-            if (result.length() == 0) {
-                result.append(param);
-            } else {
-                result.append("&" + param);
-            }
-        }
-        return result.toString();
-    }
-
-    public List<String> getCookies() {
+    public static List<String> getCookies() {
         return cookies;
     }
 
-    public void setCookies(List<String> cookies) {
-        this.cookies = cookies;
+    public static void setCookies(List<String> cookies) {
+        HttpUrlConnection.cookies = cookies;
     }
-
 }

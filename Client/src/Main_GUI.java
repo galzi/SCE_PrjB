@@ -1,3 +1,6 @@
+import Comm.Comm;
+import Comm.HttpUrlConnection;
+import Comm.LoginDialog;
 import ExchangeRates.ExchangeRates_GUI;
 import Memos.Mamo_GUI;
 import OnThisDay.OnThisDay_GUI;
@@ -10,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class Main_GUI extends JFrame {
     private JButton[] btn = new JButton[7];
@@ -17,6 +22,7 @@ public class Main_GUI extends JFrame {
 
     public Main_GUI() {
         super("Select a App");
+        new LoginDialog();
         // this.setLayout(new FlowLayout());
         this.setSize(250, 400);
 
@@ -92,6 +98,16 @@ public class Main_GUI extends JFrame {
     }
 
     public static void main(String[] args) {
+        LoginDialog dialog = new LoginDialog();
+        Hashtable<String, String> info = dialog.login(new JFrame());
+        try {
+            Map<String, Object> map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
+            if ((map.get("loginStatus").toString()).equals("FAILURE")) {
+                System.exit(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new Main_GUI();
     }
 }
