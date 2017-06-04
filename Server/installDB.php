@@ -18,15 +18,12 @@
           CONSTRAINT `memo_users__fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
-        $SQL->performQuery("CREATE TABLE `picturealbum` (
+        $SQL->performQuery("CREATE TABLE `rss` (
           `username` varchar(30) NOT NULL,
-          `imageid` int(11) NOT NULL,
-          `location` varchar(60) DEFAULT NULL,
-          `date` date DEFAULT NULL,
-          `description` varchar(120) DEFAULT NULL,
-          PRIMARY KEY (`imageid`,`username`),
-          KEY `picturealbum___fk` (`username`),
-          CONSTRAINT `picturealbum___fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+          `feedid` int(11) NOT NULL AUTO_INCREMENT,
+          `url` varchar(120) DEFAULT NULL,
+          PRIMARY KEY (`feedid`,`username`),
+          CONSTRAINT `rss___fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
         $SQL->performQuery("CREATE TABLE `todo` (
