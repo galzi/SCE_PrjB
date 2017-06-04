@@ -8,6 +8,9 @@ import java.util.List;
 
 public class HttpUrlConnection {
 
+    public static final String serverHost = "http://localhost/app/Server/";
+    public static final String serverLogin = "http://localhost/app/Server/login.php";
+
     private static List<String> cookies;
     private static HttpURLConnection conn;
 
@@ -15,7 +18,7 @@ public class HttpUrlConnection {
 
     public static String performLogin(String username, String password) throws Exception {
 
-        String url = "http://localhost/app/Server/login.php";
+        String url = HttpUrlConnection.serverLogin;
 
         HttpUrlConnection http = new HttpUrlConnection();
         CookieHandler.setDefault(new CookieManager());
@@ -72,7 +75,7 @@ public class HttpUrlConnection {
         return response.toString();
     }
 
-    private static String GetPageContent(String url) throws Exception {
+    public static String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
         conn = (HttpURLConnection) obj.openConnection();

@@ -54,6 +54,10 @@
             return $arr;
         }
 
+        public function getErrorMessage() {
+            return $this->conn->error;
+        }
+
         public function closeConnection() {
             $this->conn->close();
         }

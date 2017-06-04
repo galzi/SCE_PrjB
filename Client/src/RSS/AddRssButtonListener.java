@@ -1,5 +1,6 @@
 package RSS;
 
+import Comm.HttpUrlConnection;
 import RSS.model.Feed;
 import RSS.model.FeedMessage;
 import RSS.read.RSSFeedParser;
@@ -31,6 +32,12 @@ public class AddRssButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String urlFeed = urlTextField.getText();
+        try {
+            System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=add&content="+urlFeed));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
         try {
             //http://rssfeeds.usatoday.com/usatoday-NewsTopStories //error
             RSSFeedParser parser = new RSSFeedParser(urlFeed);

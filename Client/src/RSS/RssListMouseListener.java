@@ -1,5 +1,6 @@
 package RSS;
 
+import Comm.HttpUrlConnection;
 import RSS.model.Feed;
 import RSS.model.FeedMessage;
 
@@ -53,8 +54,14 @@ public class RssListMouseListener implements MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = rssList.getSelectedIndex();
+                System.out.println(row);
                 ((DefaultListModel)rssList.getModel()).remove(row);
                 feedList.remove(row);
+                try {
+                    System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+row));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }

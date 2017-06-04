@@ -1,6 +1,6 @@
 <?php
     include "SQLManipulator.php";
-    $SQL = SQLManipulator::getInstance("localhost", "root", "", "Widgets");
+    include "dbLogin.php";
 
     if (!isset($_POST)) {
         die();
