@@ -46,6 +46,7 @@
             if ($queryResults->num_rows == 0) {
                 return null;
             }
+
             $arr = array();
             while ($row = $queryResults->fetch_array(MYSQLI_ASSOC)) {
                 array_push($arr, $row);

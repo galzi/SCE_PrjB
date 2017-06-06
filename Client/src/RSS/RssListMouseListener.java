@@ -55,13 +55,15 @@ public class RssListMouseListener implements MouseListener {
             public void actionPerformed(ActionEvent e) {
                 int row = rssList.getSelectedIndex();
                 System.out.println(row);
-                ((DefaultListModel)rssList.getModel()).remove(row);
-                feedList.remove(row);
+
                 try {
-                    System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+row));
+                    System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+feedList.get(row).getLink()));
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+
+                ((DefaultListModel)rssList.getModel()).remove(row);
+                feedList.remove(row);
             }
         });
     }

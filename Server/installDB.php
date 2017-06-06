@@ -15,15 +15,14 @@
           `title` varchar(30) DEFAULT NULL,
           `content` varchar(120) DEFAULT NULL,
           PRIMARY KEY (`username`,`memoid`),
-          CONSTRAINT `memo_users__fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+          CONSTRAINT `memo_users_USER_fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
         $SQL->performQuery("CREATE TABLE `rss` (
           `username` varchar(30) NOT NULL,
-          `feedid` int(11) NOT NULL AUTO_INCREMENT,
           `url` varchar(120) DEFAULT NULL,
-          PRIMARY KEY (`feedid`,`username`),
-          CONSTRAINT `rss___fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+          PRIMARY KEY (`url`,`username`),
+          CONSTRAINT `rss_users_USER_fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
         $SQL->performQuery("CREATE TABLE `todo` (

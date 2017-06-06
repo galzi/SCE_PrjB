@@ -1,6 +1,9 @@
 package RSS;
 
+import Comm.Comm;
+import Comm.HttpUrlConnection;
 import RSS.model.Feed;
+import RSS.read.RSSFeedParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +11,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+
+import static Comm.Comm.toMap;
 
 
 /**
@@ -69,7 +75,7 @@ public class RSS_GUI extends JFrame {
         constraints = new GridBagConstraints(0,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,5);
         RssGuiPanel.add(btnAddRss, constraints);
 
-        urlTextField = new JTextField("http://www.");
+        urlTextField = new JTextField("http://rss.cnn.com/rss/cnn_topstories.rss");
         constraints = new GridBagConstraints(1,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
         RssGuiPanel.add(urlTextField, constraints);
 
@@ -105,6 +111,24 @@ public class RSS_GUI extends JFrame {
             }
         });
 
+        String URLs = null;
+        try {
+            URLs = HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=get");
+            System.out.println(URLs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> URLmap = toMap(URLs);
+
+        for (Object o : (ArrayList<Object>) URLmap.get("url")) {
+            System.out.println(o.toString());
+
+            RSSFeedParser parser = new RSSFeedParser(o.toString());
+            Feed feed = parser.readFeed();
+            rssListModel.addElement(feed.getDescription());
+            feedList.add(feed);
+        }
     }
 
     public static RSS_GUI getInstance() {

@@ -1,5 +1,5 @@
 <?php
-    include "SQLManipulator.php";
+    // include "SQLManipulator.php";
     include "dbLogin.php";
 
     if (!isset($_POST)) {
