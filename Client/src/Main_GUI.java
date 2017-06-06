@@ -97,10 +97,11 @@ public class Main_GUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        Boolean register = false;
-        Hashtable<String, String> info = Comm.login(new JFrame(), register);
-        if (register) {
+        JFrame frame = new JFrame();
+        Hashtable<String, String> info = Comm.login(frame);
+        if (info == null) {
             try {
+                info = Comm.register(frame);
                 HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register.php", "username=" + info.get("user") + "&password=" + info.get("pass"));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -118,5 +119,7 @@ public class Main_GUI extends JFrame {
         }
 
         new Main_GUI();
+
+        // TODO change register, so that when pressing register button, login dialog will close, and register will open
     }
 }

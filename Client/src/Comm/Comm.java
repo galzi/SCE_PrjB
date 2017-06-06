@@ -105,10 +105,9 @@ public class Comm {
         }
     }
 
-    public static Hashtable<String, String> login(final JFrame frame, Boolean registerFlag) { // TODO on close (x button) exit program
+    public static Hashtable<String, String> login(final JFrame frame) { // TODO on close (x button) exit program
         Hashtable<String, String> loginInformation = new Hashtable<String, String>();
-        final Hashtable<String, String>[] registerInformation = new Hashtable[]{null};
-        registerFlag = false;
+        final boolean[] registerFlag = {false};
 
         JPanel panel = new JPanel(new BorderLayout(5, 5));
 
@@ -129,16 +128,16 @@ public class Comm {
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registerInformation[0] = register(frame); // relogin
+                registerFlag[0] = true;
+                frame.dispose();
             }
         });
         panel.add(register, BorderLayout.SOUTH);
 
         JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE); // JOptionPane.OK_CANCEL_OPTION
 
-        if (registerInformation[0] != null) {
-            registerFlag = true;
-            return registerInformation[0];
+        if (registerFlag[0]) {
+            return null;
         }
 
         loginInformation.put("user", username.getText());
@@ -169,8 +168,9 @@ public class Comm {
         while (true) {
             JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE); // JOptionPane.OK_CANCEL_OPTION
 
-            if (password.getPassword() != confirmPassword.getPassword()) {
-                JOptionPane.showInputDialog("Passwords don't match!");
+            if (!new String(password.getPassword()).equals(new String(confirmPassword.getPassword()))) {
+                JOptionPane.showMessageDialog(frame, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
                 break;
             }
         }
