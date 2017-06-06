@@ -22,10 +22,8 @@
     $SQL = SQLManipulator::getInstance(); // session?
     switch ($_GET["action"]) {
         case "add":
-            $str = "INSERT INTO rss (username, url)
-                                    VALUES ('" . $_SESSION["username"] . "', '" . $_GET["content"] . "')";
-            echo $str;
-            $SQL->performQuery($str);
+            $SQL->performQuery("INSERT INTO rss (username, url)
+                                    VALUES ('" . $_SESSION["username"] . "', '" . $_GET["content"] . "')");
 
             if ($SQL->getErrorMessage() == "") {
                 echo json_encode(array("status" => "Success"));

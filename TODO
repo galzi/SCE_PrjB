@@ -3,3 +3,4 @@
 * Building a server side to handle UI requests using HTTP calls and JSON responses
 * Implementing the login authorization
 * Add the widgets account handling (using the session) - DB requests
+* Server Routes

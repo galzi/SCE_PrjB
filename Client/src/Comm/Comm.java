@@ -2,13 +2,18 @@ package Comm;
 
 
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 import javax.json.*;
+import javax.swing.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 public class Comm {
     /**
@@ -98,6 +103,82 @@ public class Comm {
                 System.out.println(entry.getValue());
             }
         }
+    }
+
+    public static Hashtable<String, String> login(final JFrame frame, Boolean registerFlag) { // TODO on close (x button) exit program
+        Hashtable<String, String> loginInformation = new Hashtable<String, String>();
+        final Hashtable<String, String>[] registerInformation = new Hashtable[]{null};
+        registerFlag = false;
+
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+        JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+        label.add(new JLabel("Username", SwingConstants.RIGHT));
+        label.add(new JLabel("Password", SwingConstants.RIGHT));
+        panel.add(label, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JTextField username = new JTextField();
+        controls.add(username);
+        JPasswordField password = new JPasswordField();
+        controls.add(password);
+        panel.add(controls, BorderLayout.CENTER);
+
+        JButton register = new JButton("Register");
+        controls.add(register);
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registerInformation[0] = register(frame); // relogin
+            }
+        });
+        panel.add(register, BorderLayout.SOUTH);
+
+        JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE); // JOptionPane.OK_CANCEL_OPTION
+
+        if (registerInformation[0] != null) {
+            registerFlag = true;
+            return registerInformation[0];
+        }
+
+        loginInformation.put("user", username.getText());
+        loginInformation.put("pass", new String(password.getPassword()));
+        return loginInformation;
+    }
+
+    public static Hashtable<String, String> register(JFrame frame) { // TODO on close (x button) exit program
+        Hashtable<String, String> registerInformation = new Hashtable<String, String>();
+
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+        JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+        label.add(new JLabel("Username", SwingConstants.RIGHT));
+        label.add(new JLabel("Password", SwingConstants.RIGHT));
+        label.add(new JLabel("Confirm Password", SwingConstants.RIGHT));
+        panel.add(label, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JTextField username = new JTextField();
+        controls.add(username);
+        JPasswordField password = new JPasswordField();
+        controls.add(password);
+        JPasswordField confirmPassword = new JPasswordField();
+        controls.add(confirmPassword);
+        panel.add(controls, BorderLayout.CENTER);
+
+        while (true) {
+            JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE); // JOptionPane.OK_CANCEL_OPTION
+
+            if (password.getPassword() != confirmPassword.getPassword()) {
+                JOptionPane.showInputDialog("Passwords don't match!");
+                break;
+            }
+        }
+
+        // server register, json regex
+        registerInformation.put("user", username.getText());
+        registerInformation.put("pass", new String(password.getPassword()));
+        return registerInformation;
     }
 
     public static void main(String[] args) {

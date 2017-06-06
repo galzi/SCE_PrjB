@@ -1,6 +1,5 @@
 import Comm.Comm;
 import Comm.HttpUrlConnection;
-import Comm.LoginDialog;
 import ExchangeRates.ExchangeRates_GUI;
 import Memos.Mamo_GUI;
 import OnThisDay.OnThisDay_GUI;
@@ -17,12 +16,12 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class Main_GUI extends JFrame {
+    // public static final String HOSTNAME = "http://localhost/app/Server/";
     private JButton[] btn = new JButton[7];
     private String[] str = {"To Do List", "Memos", "Exchange Rates", "Picture Album", "On This Day", "RSS", "World Clocks"};
 
     public Main_GUI() {
         super("Select a App");
-        new LoginDialog();
         // this.setLayout(new FlowLayout());
         this.setSize(250, 400);
 
@@ -98,16 +97,26 @@ public class Main_GUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        LoginDialog dialog = new LoginDialog();
-        Hashtable<String, String> info = dialog.login(new JFrame());
-        try {
-            Map<String, Object> map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
-            if ((map.get("loginStatus").toString()).equals("FAILURE")) {
-                System.exit(1);
+        Boolean register = false;
+        Hashtable<String, String> info = Comm.login(new JFrame(), register);
+        if (register) {
+            try {
+                HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register.php", "username=" + info.get("user") + "&password=" + info.get("pass"));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            // check result - json regex, username already exists?
+        } else {
+            try {
+                Map<String, Object> map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
+                if ((map.get("loginStatus").toString()).equals("FAILURE")) {
+                    System.exit(1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         new Main_GUI();
     }
 }
