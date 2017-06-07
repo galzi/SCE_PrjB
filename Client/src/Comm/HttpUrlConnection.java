@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HttpUrlConnection {
 
-    public static final String serverHost = "http://localhost/app/Server/";
+    public static final String serverHost = "http://localhost/app/client/Server/";
     public static final String serverLogin = "login.php";
 
     private static List<String> cookies;

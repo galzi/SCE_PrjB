@@ -6,8 +6,8 @@
     }
 
     // regex
-    if (!ereg("/^[a-z0-9_-]{6,18}$/", $_POST["password"]) or !ereg("/^[a-z0-9_-]{3,16}$/", $_POST["username"])) {
-        echo "Illegal format";
+    if (!preg_match("/^[a-z0-9_-]{6,18}$/", $_POST["password"]) or !preg_match("/^[a-z0-9_-]{3,16}$/", $_POST["username"])) {
+        echo json_encode(array("MSG" => "Illegal format!\nUsernames and passwords must contain only latin characters, digits and hyphens. Usernames has to be 3 to 16 characters long and passwords 6 to 18 characters long.", "Code" => 1));
         die();
     }
 
@@ -16,14 +16,14 @@
     $SQL->initializeConnection();
     $query = $SQL->performQuery("SELECT * FROM users WHERE username = '" . $_POST["username"] . "'");
     if (sizeof($SQL->iterate($query)) == 1) {
-        echo "A user with the same username already exists.";
+        echo json_encode(array("MSG" => "A user with the same username already exists.", "Code" => 2));
         die();
     }
 
     // sql
     $SQL->performQuery("INSERT INTO users (username, password)
                              VALUES ('" . $_POST["username"] . "', '" . $_POST["password"] . "')");
-    echo "User successfully created.";
+    echo json_encode(array("MSG" => "User successfully created.", "Code" => 0));
 
     // json response
 

@@ -99,19 +99,31 @@ public class Main_GUI extends JFrame {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         Hashtable<String, String> info = Comm.login(frame);
+        Map<String, Object> map;
         if (info == null) {
             try {
-                info = Comm.register(frame);
-                HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register.php", "username=" + info.get("user") + "&password=" + info.get("pass"));
+                do {
+                    info = Comm.register(frame);
+                    map = Comm.toMap(HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register.php", "username=" + info.get("user") + "&password=" + info.get("pass")));
+                    JOptionPane.showMessageDialog(frame, map.get("MSG").toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                } while ((!(map.get("Code").toString()).equals("0")));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
             // check result - json regex, username already exists?
         } else {
             try {
-                Map<String, Object> map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
-                if ((map.get("loginStatus").toString()).equals("FAILURE")) {
-                    System.exit(1);
+                while (true) {
+                    map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
+                    if ((map.get("loginStatus").toString()).equals("FAILURE")) {
+                        JOptionPane.showMessageDialog(frame, "Wrong credentials!", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        break;
+                    }
+
+                    // System.exit(1);
+                    // limit attempts
                 }
             } catch (Exception e) {
                 e.printStackTrace();

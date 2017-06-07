@@ -39,6 +39,8 @@ public class ExchangeRates_GUI extends JFrame {
         dataPanel.add(destinationCurr);
         panel.add(dataPanel, BorderLayout.NORTH);
 
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
         JButton convert = new JButton("Convert");
         convert.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -50,7 +52,16 @@ public class ExchangeRates_GUI extends JFrame {
                 resultLabel.setText(String.valueOf(amount * conversionValue));
             }
         });
-        panel.add(convert, BorderLayout.CENTER);
+        JButton manage = new JButton("Manage");
+        manage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ManageCurrencies(ExchangeRates_GUI.this, true);
+            }
+        });
+        buttonsPanel.add(convert);
+        buttonsPanel.add(manage);
+        panel.add(buttonsPanel, BorderLayout.CENTER);
 
         resultLabel = new JLabel(" ");
         panel.add(resultLabel, BorderLayout.SOUTH);
@@ -92,6 +103,10 @@ public class ExchangeRates_GUI extends JFrame {
         }
 
         this.currencies = newList;
+    }
+
+    public String[] getSelected() {
+        return new String[]{toAcronym.get((String) sourceCurr.getSelectedItem()), toAcronym.get((String) destinationCurr.getSelectedItem())};
     }
 
     public static void main(String[] args) {

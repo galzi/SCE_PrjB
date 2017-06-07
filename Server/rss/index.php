@@ -21,7 +21,7 @@
 
     $SQL = SQLManipulator::getInstance(); // session?
     switch ($_GET["action"]) {
-        case "add":
+        case "add": // regex json
             $SQL->performQuery("INSERT INTO rss (username, url)
                                     VALUES ('" . $_SESSION["username"] . "', '" . $_GET["content"] . "')");
 
