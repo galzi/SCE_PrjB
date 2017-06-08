@@ -10,10 +10,7 @@ import java.awt.*;
 
 import java.awt.event.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 import javax.swing.JFrame;
@@ -29,6 +26,7 @@ import static Comm.Comm.toMap;
  * @see FeedMessage for the content of an item
  * feed = channel , feed message - item of a channel
  * Created by Or on 4/23/2017.
+ * difficulties : association between the data of JList , LinkedHashMap and database
  */
 public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
     /**
@@ -87,6 +85,8 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
      * scroll option for the item JList
      */
     private JScrollPane scrollItems;
+
+    private LinkedHashMap<String,Feed> channelMap = new LinkedHashMap<String, Feed>();
 
     private ArrayList<Feed> channelArray = new ArrayList<Feed>();
 
@@ -180,6 +180,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
             Feed feed = parser.readFeed();
             channels.addElement(feed.getDescription());
             channelArray.add(feed);
+            channelMap.put(o.toString(),feed);//
         }
     }
 
@@ -208,6 +209,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                 Feed feed = parser.readFeed();
                 channels.addElement(feed.getDescription());
                 channelArray.add(feed);
+                channelMap.put(urlFeed,feed);
             } catch (Exception el) {
 
                 JOptionPane.showMessageDialog(this,
@@ -226,13 +228,14 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
             System.out.println(row);
 
             try {
-                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+channelArray.get(row).getLink()));
+                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+channelMap.keySet().toArray()[row]/*channelArray.get(row).getLink()*/));
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
 
             ((DefaultListModel)channelList.getModel()).remove(row);
             channelArray.remove(row);
+            channelMap.remove(row);
         }
 
 
@@ -242,9 +245,8 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == itemList){
             if(SwingUtilities.isLeftMouseButton(e)){
-                JList rssMessagesc = (JList)e.getSource();
                 if(e.getClickCount()==2){
-                    int row = rssMessagesc.getSelectedIndex();
+                    int row = itemList.getSelectedIndex();
                     try {
                         URL url = new URL(itemsLinks.get(row));
                         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop():null;
@@ -255,7 +257,6 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
             }
         }
         else if(e.getSource() == channelList) {
-            JList rssList = (JList) e.getSource();
             if (isPressedOnItem(e)) {
 
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -263,7 +264,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
                     if (e.getClickCount() == 2) {
 
-                        int row = rssList.locationToIndex(e.getPoint());
+                        int row = channelList.locationToIndex(e.getPoint());
                         showRssMessagesInJList(row);
                     }
                 }
@@ -273,11 +274,10 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        JList rssList = (JList)e.getSource();
         if(isPressedOnItem(e)) {
             if (SwingUtilities.isRightMouseButton(e)) {
-                int row = rssList.locationToIndex(e.getPoint());
-                rssList.setSelectedIndex(row);
+                int row = channelList.locationToIndex(e.getPoint());
+                channelList.setSelectedIndex(row);
             }
         }
 
@@ -297,21 +297,22 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
             msg+="Title: " + message.getTitle() +"\n Description: "+ message.getDescription();
             items.addElement(msg);
         }
-
-       // DefaultTableModel tm = new DefaultTableModel();
-        Map<String,String> s = new HashMap<String, String>();
-        //JTable t= new JTable();
+        /*for(FeedMessage message : channelMap.get(channelIndex).getMessages()){
+            itemsLinks.add(message.getLink());
+            String msg = new String();
+            msg+="Title: " + message.getTitle() +"\n Description: "+ message.getDescription();
+            items.addElement(msg);
+        }*/
     }
 
     private boolean isPressedOnItem(MouseEvent e){
-        JList rssList = (JList)e.getSource();
-        if(rssList.getModel().getSize()>0) {
-            Rectangle r = rssList.getCellBounds(rssList.getFirstVisibleIndex(), rssList.getLastVisibleIndex());
+        if(channelList.getModel().getSize()>0) {
+            Rectangle r = channelList.getCellBounds(channelList.getFirstVisibleIndex(), channelList.getLastVisibleIndex());
             if (e.getPoint().getY() > r.getY() && e.getPoint().getY() < r.getMaxY()) {
                 return true;
             }
         }
-        rssList.clearSelection();
+        channelList.clearSelection();
         return false;
     }
 
@@ -321,5 +322,9 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    public Object getElementByIndex(LinkedHashMap map,int index){
+        return map.get( (map.values().toArray())[ index ] );
     }
 }
