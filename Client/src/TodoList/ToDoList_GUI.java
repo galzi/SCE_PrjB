@@ -45,6 +45,7 @@ public class ToDoList_GUI extends JFrame {
         // get items from user
         Map<String, Object> toDoList = null;
         try {
+            System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=get"));
             toDoList = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=get"));
         } catch (Exception e) {
             e.printStackTrace();

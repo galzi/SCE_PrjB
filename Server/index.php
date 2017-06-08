@@ -2,6 +2,7 @@
     include "route.php";
     include "User.php";
     include "rss/index.php";
+    include "todo/index.php";
     session_start();
 
     $route = new Route();
@@ -59,6 +60,35 @@
                     break;
                 case "get":
                     echo $RSS->get();
+                    break;
+            }
+        } else {
+            die();
+        }
+    });
+
+    $route->add('/todo', function() {
+        $ToDo = new ToDo($_SESSION["User"], $_SESSION["SQL"]);
+
+        if ((isset($_GET["content"])) and ($ToDo->checkInjection($_GET["content"]))) {
+            echo $ToDo->returnResponse(ToDoFailure::IllegalChar);
+            die();
+        }
+
+        if (isset($_GET["action"])) {
+            if (($_GET["action"] != "get") and (!isset($_GET["content"]))) { // when "action" is "get", "content" is undefined.
+                die();
+            }
+
+            switch ($_GET["action"]) {
+                case "add":
+                    echo $ToDo->insert($_GET["content"]);
+                    break;
+                case "del":
+                    $ToDo->remove($_GET["content"]);;
+                    break;
+                case "get":
+                    echo $ToDo->get();
                     break;
             }
         } else {

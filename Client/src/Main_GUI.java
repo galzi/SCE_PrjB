@@ -104,7 +104,7 @@ public class Main_GUI extends JFrame {
             try {
                 do {
                     info = Comm.register(frame);
-                    map = Comm.toMap(HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register.php", "username=" + info.get("user") + "&password=" + info.get("pass")));
+                    map = Comm.toMap(HttpUrlConnection.sendPost(HttpUrlConnection.serverHost + "register", "username=" + info.get("user") + "&password=" + info.get("pass")));
                     JOptionPane.showMessageDialog(frame, map.get("MSG").toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 } while ((!(map.get("Code").toString()).equals("0")));
 
@@ -118,6 +118,7 @@ public class Main_GUI extends JFrame {
                     map = Comm.toMap(HttpUrlConnection.performLogin(info.get("user"), info.get("pass")));
                     if ((map.get("loginStatus").toString()).equals("FAILURE")) {
                         JOptionPane.showMessageDialog(frame, "Wrong credentials!", "Error", JOptionPane.ERROR_MESSAGE);
+                        info = Comm.login(frame);
                     } else {
                         break;
                     }
