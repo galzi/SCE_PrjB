@@ -75,4 +75,8 @@ class User {
             return $this->returnResponse(RegFailure::Success);
         }
     }
+
+    public function getUsername(): string {
+        return $this->username;
+    }
 }

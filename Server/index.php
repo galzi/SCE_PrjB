@@ -1,24 +1,52 @@
 <?php
+    session_start();
+    include 'route.php';
+    $route = new Route();
 
-include 'route.php';
+    // Home route
+    $route->add('/', function() {
+    });
 
-$route = new Route();
+    // Other routes
+    $route->add('/login', function() use ($User) {
+        // Define User and SQL connection
+        if (!isset($_POST["username"]) or !isset($_POST["password"])) {
+            die();
+        }
+        $SQL = new mysqli("localhost", "root", "", "Widgets");
+        $User = new User($SQL, $_POST["username"], $_POST["password"]);
 
-$route->add('/', function() {
-    echo 'HOME';
-});
+        // TODO $obj = new Object(); $_SESSION['obj'] = serialize($obj);
+        echo $User->login();
+    });
 
-$route->add('/name', function() {
-    echo 'Name Home';
-});
+    $route->add('/register', function() use ($User) {
+        echo $User->register();
+    });
 
-$route->add('/name/.+', function($name) {
-    echo "Name $name";
-});
+    $route->add('/rss', function() use ($User, $SQL) {
+        $RSS = new RSS($User, $SQL);
 
+        if ((isset($_GET["content"])) and ($RSS->checkInjection($_GET["content"]))) {
+            echo $RSS->returnResponse(RSSFailure::IllegalChar);
+            die();
+        }
 
-$route->add('/this/is/the/.+/story/of/.+', function($first, $second) {
-    echo "This is the $first story of $second";
-});
+        if (isset($_GET["action"])) {
+            switch ($_GET["action"]) {
+                case "add":
+                    echo $RSS->insert($_GET["content"]);
+                    break;
+                case "del":
+                    $RSS->remove($_GET["content"]);;
+                    break;
+                case "get":
+                    echo $RSS->get();
+                    break;
+            }
+        } else {
+            die();
+        }
+    });
 
-$route->submit();
+    $route->submit();
