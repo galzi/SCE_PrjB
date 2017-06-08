@@ -47,7 +47,7 @@
             return json_encode(array("url" => $_URLs));
         }
 
-        public function returnResponse(RSSFailure $status) {
+        public function returnResponse($status) {
             switch ($status) {
                 case RSSFailure::IllegalChar:
                     return json_encode(array("status" => "Illegal characters found!"));

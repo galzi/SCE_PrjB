@@ -1,4 +1,5 @@
 <?php
+include "RegFailure.php";
 
 class User {
     private $SQL;
@@ -39,7 +40,7 @@ class User {
                              VALUES ('" . $this->username . "', '" . $this->pass . "')");
     }
 
-    public function returnResponse(RegFailure $status, bool $b = false) {
+    public function returnResponse($status, bool $b = false) {
         switch ($status) {
             case RegFailure::IllegalFormat:
                 return json_encode(array("MSG" => "Illegal format!\nUsernames and passwords must contain only latin characters, digits and hyphens. \nUsernames has to be 3 to 16 characters long and passwords 6 to 18 characters long.", "Code" => 1));

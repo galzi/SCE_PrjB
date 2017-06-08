@@ -1,10 +1,14 @@
 <?php
+    include "route.php";
+    include "User.php";
+    include "rss/index.php";
     session_start();
-    include 'route.php';
+
     $route = new Route();
 
     // Home route
     $route->add('/', function() {
+        echo "Hi";
     });
 
     // Other routes
@@ -23,6 +27,10 @@
     });
 
     $route->add('/register', function() {
+        if (!isset($_POST["username"]) or !isset($_POST["password"])) {
+            die();
+        }
+
         $_SESSION["SQL"] = new mysqli("localhost", "root", "", "Widgets");
         $_SESSION["User"] = new User($_SESSION["SQL"], $_POST["username"], $_POST["password"]);
         echo $_SESSION["User"]->register();
