@@ -123,6 +123,9 @@ public class ToDoList_GUI extends JFrame {
                 ToDoList_GUI.this.pan.remove(checkBox);
                 ToDoList_GUI.this.pan.remove(label);
                 ToDoList_GUI.this.pan.remove(button);
+
+                ToDoList_GUI.this.pack();
+                ToDoList_GUI.this.pan.repaint();
             }
         });
 

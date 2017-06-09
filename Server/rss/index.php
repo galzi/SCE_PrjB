@@ -3,11 +3,9 @@
 
     class RSS {
         private $User;
-        private $SQL;
 
-        public function __construct(User $user, mysqli $SQL) {
+        public function __construct(User $user) {
             $this->User = $user;
-            $this->SQL = $SQL;
         }
 
         public function checkInjection(string $URL) {
@@ -23,22 +21,22 @@
             return preg_match("/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/", $URL) == 1;
         }
 
-        public function insert(string $URL) {
+        public function insert(string $URL, mysqli $SQL) {
             if ($this->checkURL($URL)) {
-                return $this->SQL->query("INSERT INTO rss (username, url)
+                return $SQL->query("INSERT INTO rss (username, url)
                                     VALUES ('" . $this->User->getUsername() . "', '" . $URL . "')") ? $this->returnResponse(RSSFailure::Success) : $this->returnResponse(RSSFailure::AlreadyExists);
             } else {
                 return $this->returnResponse(RSSFailure::IllegalURL);
             }
         }
 
-        public function remove(string $URL) {
-            $this->SQL->query("DELETE FROM rss
+        public function remove(string $URL, mysqli $SQL) {
+            $SQL->query("DELETE FROM rss
                                     WHERE username = '" . $this->User->getUsername() . "' and url = '" . $URL . "'");
         }
 
-        public function get() {
-            $URLs = $this->SQL->query("SELECT url FROM rss WHERE username = '" . $this->User->getUsername() . "'");
+        public function get(mysqli $SQL) {
+            $URLs = $SQL->query("SELECT url FROM rss WHERE username = '" . $this->User->getUsername() . "'");
 
             $_URLs = array();
             foreach ($URLs as $i) {

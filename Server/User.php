@@ -2,23 +2,21 @@
 include "RegFailure.php";
 
 class User {
-    private $SQL;
     private $username;
     private $pass;
 
-    public function __construct(mysqli $SQL, string $username, string $pass) {
-        $this->SQL = $SQL;
+    public function __construct(string $username, string $pass) {
         $this->username = $username;
         $this->pass = $pass;
     }
 
-    private function isCredentialsCorrect() { // isExists
-        return ($this->SQL->query("SELECT * FROM users WHERE username = '" . $this->username . "' and password = '" . $this->pass . "'"))->num_rows == 1;
+    private function isCredentialsCorrect(mysqli $SQL) { // isExists
+        return ($SQL->query("SELECT * FROM users WHERE username = '" . $this->username . "' and password = '" . $this->pass . "'"))->num_rows == 1;
         // returns false if username doesn't exist or password incorrect
     }
 
-    public function login() {
-        if ($this->isCredentialsCorrect()) {
+    public function login(mysqli $SQL) {
+        if ($this->isCredentialsCorrect($SQL)) {
             return $this->returnResponse(RegFailure::Login, true);
         }
         return $this->returnResponse(RegFailure::Login, false);
@@ -31,12 +29,12 @@ class User {
         return true;
     }
 
-    private function isExists() {
-        return ($this->SQL->query("SELECT * FROM users WHERE username = '" . $this->username . "'"))->num_rows == 1;
+    private function isExists(mysqli $SQL) {
+        return ($SQL->query("SELECT * FROM users WHERE username = '" . $this->username . "'"))->num_rows == 1;
     }
 
-    private function createUser() {
-        $this->SQL->query("INSERT INTO users (username, password)
+    private function createUser(mysqli $SQL) {
+        $SQL->query("INSERT INTO users (username, password)
                              VALUES ('" . $this->username . "', '" . $this->pass . "')");
     }
 
@@ -57,13 +55,13 @@ class User {
         return null;
     }
 
-    public function register() {
+    public function register(mysqli $SQL) {
         if (!$this->verifyFormat()) {
             return $this->returnResponse(RegFailure::IllegalFormat);
-        } elseif ($this->isExists()) {
+        } elseif ($this->isExists($SQL)) {
             return $this->returnResponse(RegFailure::SameUsername);
         } else {
-            $this->createUser();
+            $this->createUser($SQL);
             return $this->returnResponse(RegFailure::Success);
         }
     }
