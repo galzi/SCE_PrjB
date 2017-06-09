@@ -19,8 +19,9 @@ public class ManageCurrencies extends JDialog {
 
         model = new DefaultTableModel(new Object[]{"From", "To"},0);
         table.setModel(model);
+        JScrollPane scrollTable = new JScrollPane(table);
         // get
-        this.add(table);
+        this.add(scrollTable);
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
