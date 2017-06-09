@@ -8,6 +8,7 @@
     include "rss/RSS.php";
     include "todo/ToDo.php";
     include "exchange/ExchangeRates.php";
+    include "history/History.php";
 
     session_start();
     $SQL = new mysqli("localhost", "root", "", "Widgets"); // can't be serialized, so can't be saved as session variable or be sent to other objects
@@ -136,6 +137,14 @@
         } else {
             die();
         }
+    });
+
+    $route->add('/history', function() {
+        $type = isset($_GET["type"]) ? $_GET["type"] : null;
+        $month = isset($_GET["month"]) ? $_GET["month"] : null;
+        $day = isset($_GET["day"]) ? $_GET["day"] : null;
+
+        echo History::getHistory($_GET["type"], $_GET["month"], $_GET["day"]);
     });
 
     $route->submit();

@@ -82,7 +82,7 @@ public class OnThisDay_GUI extends JFrame {
     private void extractData(String type) {
         Map<String, Object> birthEvents = null;
         try {
-            birthEvents = toMap(HttpUrlConnection.GetPageContent("https://en.wikipedia.org/api/rest_v1/feed/onthisday/" + type + "/" + this.month + "/" + this.day)); // HttpUrlConnection.serverHost
+            birthEvents = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "history/?type=" + type + "&month=" + this.month + "&day=" + this.day));
         } catch (Exception e1) {
             e1.printStackTrace();
         }
