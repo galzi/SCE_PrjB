@@ -1,5 +1,6 @@
 <?php
-    include "Widget.php";
+    // include "Widget.php";
+    include "ExchangeFailure.php";
 
     class ExchangeRates implements Widget {
         private $User;

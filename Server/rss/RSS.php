@@ -1,5 +1,5 @@
 <?php
-    include "Widget.php";
+    // include "Widget.php";
     include "RSSFailure.php";
 
     class RSS implements Widget {

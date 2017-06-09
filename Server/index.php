@@ -2,8 +2,13 @@
     include "route.php";
     include "checkInjection.php";
     include "User.php";
+
+    include "Widget.php";
+
     include "rss/RSS.php";
     include "todo/ToDo.php";
+    include "exchange/ExchangeRates.php";
+
     session_start();
     $SQL = new mysqli("localhost", "root", "", "Widgets"); // can't be serialized, so can't be saved as session variable or be sent to other objects
     $route = new Route();
@@ -38,7 +43,7 @@
     $route->add('/rss', function() use ($SQL) {
         $RSS = new RSS($_SESSION["User"]);
 
-        if ((isset($_GET["content"])) and (checkInjection($_GET["content"]))) {
+        if ((isset($_GET["content"])) and (checkInjection::check($_GET["content"]))) {
             echo $RSS->returnResponse(RSSFailure::IllegalChar);
             die();
         }
@@ -67,7 +72,7 @@
     $route->add('/todo', function() use ($SQL) {
         $ToDo = new ToDo($_SESSION["User"]);
 
-        if ((isset($_GET["content"])) and (checkInjection::checkInjection($_GET["content"]))) {
+        if ((isset($_GET["content"])) and (checkInjection::check($_GET["content"]))) {
             echo checkInjection::returnResponse(true);
             die();
         }
@@ -102,12 +107,12 @@
     $route->add('/exchange', function() use ($SQL) {
         $Exchange = new ExchangeRates($_SESSION["User"]);
 
-        if ((isset($_GET["source"])) and (checkInjection::checkInjection($_GET["source"]))) {
+        if ((isset($_GET["source"])) and (checkInjection::check($_GET["source"]))) {
             echo checkInjection::returnResponse(true);
             die();
         }
 
-        if ((isset($_GET["destination"])) and (checkInjection::checkInjection($_GET["destination"]))) {
+        if ((isset($_GET["destination"])) and (checkInjection::check($_GET["destination"]))) {
             echo checkInjection::returnResponse(true);
             die();
         }

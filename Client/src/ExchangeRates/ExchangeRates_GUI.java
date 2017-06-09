@@ -22,6 +22,7 @@ public class ExchangeRates_GUI extends JFrame {
 
     private String[] currencies;
     private Map<String, String> toAcronym = new HashMap<String, String>();
+    private final Map<String, Object> toName = (Map) Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/list?access_key=5a9785bc12c18412ea75e910dd525285")).get("currencies");
 
     public ExchangeRates_GUI() {
         getCurrencyList();
@@ -56,7 +57,7 @@ public class ExchangeRates_GUI extends JFrame {
         manage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ManageCurrencies(ExchangeRates_GUI.this, true);
+                new ManageCurrencies(ExchangeRates_GUI.this);
             }
         });
         buttonsPanel.add(convert);
@@ -91,13 +92,12 @@ public class ExchangeRates_GUI extends JFrame {
     }
 
     public void getCurrencyList() {
-        Map<String, Object> map = (Map) Comm.toMap(Comm.GetURLContent("http://apilayer.net/api/list?access_key=5a9785bc12c18412ea75e910dd525285")).get("currencies");
-        String[] newList = new String[map.size() + 1];
+        String[] newList = new String[this.toName.size() + 1];
 
         newList[0] = "";
         int i = 0;
 
-        for (Map.Entry<String, Object> o : map.entrySet()) {
+        for (Map.Entry<String, Object> o : this.toName.entrySet()) {
             newList[i++ + 1] = String.valueOf(o.getValue());
             this.toAcronym.put(String.valueOf(o.getValue()), o.getKey());
         }
@@ -107,6 +107,19 @@ public class ExchangeRates_GUI extends JFrame {
 
     public String[] getSelected() {
         return new String[]{toAcronym.get((String) sourceCurr.getSelectedItem()), toAcronym.get((String) destinationCurr.getSelectedItem())};
+    }
+
+    public void setSelected(String source, String destination) {
+        sourceCurr.setSelectedItem(source);
+        destinationCurr.setSelectedItem(destination);
+    }
+
+    public Map<String, Object> getToName() {
+        return toName;
+    }
+
+    public final Map<String, String> getToAcronym() {
+        return toAcronym;
     }
 
     public static void main(String[] args) {
