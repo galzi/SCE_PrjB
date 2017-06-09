@@ -90,6 +90,12 @@
                 case "get":
                     echo $ToDo->get();
                     break;
+                case "check":
+                    $ToDo->check($_GET["content"], true);
+                    break;
+                case "uncheck":
+                    $ToDo->check($_GET["content"], false);
+                    break;
             }
         } else {
             die();

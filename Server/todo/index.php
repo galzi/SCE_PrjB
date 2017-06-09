@@ -1,11 +1,14 @@
 <?php
+    include "ToDoFailure.php";
+
     class ToDo {
         private $User;
         private $SQL;
 
         public function __construct(User $user, mysqli $SQL) {
             $this->User = $user;
-            $this->SQL = $SQL;
+            $this->SQL = new mysqli("localhost", "root", "", "Widgets");
+            // why cant mysqli be transmitted to the object?
         }
 
         public function insert(string $task) {
@@ -19,17 +22,19 @@
         }
 
         public function get() {
-            $tasks = $this->SQL->query("SELECT content FROM todo WHERE username = '" . $this->User->getUsername() . "'");
+            $tasks = $this->SQL->query("SELECT * FROM todo WHERE username = '" . $this->User->getUsername() . "'");
 
             $_tasks = array();
             foreach ($tasks as $i) {
                 array_push($_tasks, array("task" => array("checked" => $i["checked"], "content" => $i["content"])));
             }
-            return json_encode(array("url" => $_tasks));
+            return json_encode(array("list" => $_tasks));
         }
 
-        public function check(bool $b) {
-
+        public function check(string $task, bool $b) {
+            $this->SQL->query("UPDATE todo
+                                      SET checked = " . ($b ? "1" : "0") . "
+                                      WHERE username = '" . $this->User->getUsername() . "' and content = '" . $task . "'");
         }
 
         public function returnResponse($status) {

@@ -53,7 +53,8 @@ public class ToDoList_GUI extends JFrame {
 
         for (Object o : (ArrayList<Object>) toDoList.get("list")) {
             System.out.println(o.toString());
-            addItem(true, ((Map) o).get("check").toString().equals("true"), ((Map) o).get("content").toString());
+            o = ((Map) o).get("task");
+            addItem(true, ((Map) o).get("checked").toString().equals("1"), ((Map) o).get("content").toString());
 
         }
 
@@ -126,7 +127,9 @@ public class ToDoList_GUI extends JFrame {
         });
 
         try {
-            System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=add&content=" + label.getText()));
+            if (!isFromServer) {
+                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=add&content=" + label.getText()));
+            }
         } catch (Exception e1) {
             e1.printStackTrace();
         }
