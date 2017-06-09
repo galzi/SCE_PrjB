@@ -1,7 +1,8 @@
 <?php
+    include "Widget.php";
     include "ToDoFailure.php";
 
-    class ToDo {
+    class ToDo implements Widget {
         private $User;
 
         public function __construct(User $user) {
@@ -40,20 +41,9 @@
                     return json_encode(array("status" => "Success"));
                 case ToDoFailure::Failure:
                     return json_encode(array("status" => "Failure"));
-                case ToDoFailure::IllegalChar: // ?
-                    return json_encode(array("status" => "Illegal characters found!"));
                 default:
                     return null;
             }
-        }
-
-        public function checkInjection(string $URL) { // ?
-            foreach (array('||', '-', '*', /*'/',*/ '<>', '<', '>', ',', '=', '<=', '>=', '~=', '!=', '^=', '(', ')', ';') as $i) { // http://forums.codeguru.com/showthread.php?350081-Invalid-characters-in-sql
-                if (strpos($URL, $i) !== false) {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 ?>

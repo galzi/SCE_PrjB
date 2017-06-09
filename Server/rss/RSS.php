@@ -1,20 +1,12 @@
 <?php
-    // session_start();
+    include "Widget.php";
+    include "RSSFailure.php";
 
-    class RSS {
+    class RSS implements Widget {
         private $User;
 
         public function __construct(User $user) {
             $this->User = $user;
-        }
-
-        public function checkInjection(string $URL) {
-            foreach (array('||', '-', '*', /*'/',*/ '<>', '<', '>', ',', '=', '<=', '>=', '~=', '!=', '^=', '(', ')', ';') as $i) { // http://forums.codeguru.com/showthread.php?350081-Invalid-characters-in-sql
-                if (strpos($URL, $i) !== false) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public function checkURL(string $URL) {
@@ -47,8 +39,6 @@
 
         public function returnResponse($status) {
             switch ($status) {
-                case RSSFailure::IllegalChar:
-                    return json_encode(array("status" => "Illegal characters found!"));
                 case RSSFailure::IllegalURL:
                     return json_encode(array("status" => "Illegal URL!"));
                 case RSSFailure::AlreadyExists:

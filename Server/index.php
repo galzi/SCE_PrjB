@@ -1,8 +1,9 @@
 <?php
     include "route.php";
+    include "checkInjection.php";
     include "User.php";
-    include "rss/index.php";
-    include "todo/index.php";
+    include "rss/RSS.php";
+    include "todo/ToDo.php";
     session_start();
     $SQL = new mysqli("localhost", "root", "", "Widgets"); // can't be serialized, so can't be saved as session variable or be sent to other objects
     $route = new Route();
@@ -37,7 +38,7 @@
     $route->add('/rss', function() use ($SQL) {
         $RSS = new RSS($_SESSION["User"]);
 
-        if ((isset($_GET["content"])) and ($RSS->checkInjection($_GET["content"]))) {
+        if ((isset($_GET["content"])) and (checkInjection($_GET["content"]))) {
             echo $RSS->returnResponse(RSSFailure::IllegalChar);
             die();
         }
@@ -66,8 +67,8 @@
     $route->add('/todo', function() use ($SQL) {
         $ToDo = new ToDo($_SESSION["User"]);
 
-        if ((isset($_GET["content"])) and ($ToDo->checkInjection($_GET["content"]))) {
-            echo $ToDo->returnResponse(ToDoFailure::IllegalChar);
+        if ((isset($_GET["content"])) and (checkInjection::checkInjection($_GET["content"]))) {
+            echo checkInjection::returnResponse(true);
             die();
         }
 
@@ -91,6 +92,40 @@
                     break;
                 case "uncheck":
                     $ToDo->check($_GET["content"], false, $SQL);
+                    break;
+            }
+        } else {
+            die();
+        }
+    });
+
+    $route->add('/exchange', function() use ($SQL) {
+        $Exchange = new ExchangeRates($_SESSION["User"]);
+
+        if ((isset($_GET["source"])) and (checkInjection::checkInjection($_GET["source"]))) {
+            echo checkInjection::returnResponse(true);
+            die();
+        }
+
+        if ((isset($_GET["destination"])) and (checkInjection::checkInjection($_GET["destination"]))) {
+            echo checkInjection::returnResponse(true);
+            die();
+        }
+
+        if (isset($_GET["action"])) {
+            if (($_GET["action"] != "get") and (!isset($_GET["source"]) or !isset($_GET["destination"]))) {
+                die();
+            }
+
+            switch ($_GET["action"]) {
+                case "add":
+                    echo $Exchange->insert($_GET["source"] . "|" . $_GET["destination"], $SQL);
+                    break;
+                case "del":
+                    $Exchange->remove($_GET["source"] . "|" . $_GET["destination"], $SQL);
+                    break;
+                case "get":
+                    echo $Exchange->get($SQL);
                     break;
             }
         } else {

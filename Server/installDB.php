@@ -9,12 +9,11 @@
               PRIMARY KEY (`username`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
-    $SQL->query("CREATE TABLE `memo` (
+    $SQL->query("CREATE TABLE `exchange` (
               `username` varchar(30) NOT NULL,
-              `memoid` int(11) NOT NULL,
-              `title` varchar(30) DEFAULT NULL,
-              `content` varchar(120) DEFAULT NULL,
-              PRIMARY KEY (`username`,`memoid`),
+              `source` varchar(3) DEFAULT NULL,
+              `destination` varchar(3) DEFAULT NULL,
+              PRIMARY KEY (`username`,`source`, `destination`),
               CONSTRAINT `memo_users_USER_fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
