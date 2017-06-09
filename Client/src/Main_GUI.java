@@ -1,12 +1,9 @@
 import Comm.Comm;
 import Comm.HttpUrlConnection;
 import ExchangeRates.ExchangeRates_GUI;
-import Memos.Mamo_GUI;
 import OnThisDay.OnThisDay_GUI;
-import PictureAlbum.PictureAlbum_GUI;
 import RSS.RSS_GUI;
 import TodoList.ToDoList_GUI;
-import WorldClocks.WorldClocks_GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +13,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class Main_GUI extends JFrame {
-    // public static final String HOSTNAME = "http://localhost/app/Server/";
-    private JButton[] btn = new JButton[7];
-    private String[] str = {"To Do List", "Memos", "Exchange Rates", "Picture Album", "On This Day", "RSS", "World Clocks"};
+    private JButton[] btn = new JButton[4];
+    private String[] str = {"To Do List", "Exchange Rates", "On This Day", "RSS"};
 
     public Main_GUI() {
         super("Select a App");
@@ -50,28 +46,12 @@ public class Main_GUI extends JFrame {
         this.btn[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Mamo_GUI mm = new Mamo_GUI();
-                mm.setVisible(true);
-            }
-        });
-
-        this.btn[2].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 ExchangeRates_GUI er = new ExchangeRates_GUI();
                 er.setVisible(true);
             }
         });
 
-        this.btn[3].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PictureAlbum_GUI pa = new PictureAlbum_GUI();
-                pa.setVisible(true);
-            }
-        });
-
-        this.btn[4].addActionListener(new ActionListener() {
+        this.btn[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 OnThisDay_GUI otd_main = new OnThisDay_GUI();
@@ -79,19 +59,11 @@ public class Main_GUI extends JFrame {
             }
         });
 
-        this.btn[5].addActionListener(new ActionListener() {
+        this.btn[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RSS_GUI rss = new RSS_GUI();
                 rss.setVisible(true);
-            }
-        });
-
-        this.btn[6].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                WorldClocks_GUI wc = new WorldClocks_GUI();
-                wc.setVisible(true);
             }
         });
     }
@@ -132,7 +104,5 @@ public class Main_GUI extends JFrame {
         }
 
         new Main_GUI();
-
-        // TODO change register, so that when pressing register button, login dialog will close, and register will open
     }
 }
