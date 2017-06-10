@@ -62,7 +62,7 @@ public class Main_GUI extends JFrame {
         this.btn[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RSS_GUI rss = new RSS_GUI();
+                RSS_GUI rss = RSS_GUI.getInstance();
                 rss.setVisible(true);
             }
         });
