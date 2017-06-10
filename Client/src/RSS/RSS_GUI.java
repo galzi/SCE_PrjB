@@ -5,6 +5,7 @@ import RSS.model.Feed;
 import RSS.model.FeedMessage;
 import RSS.read.RSSFeedParser;
 
+import javax.json.JsonString;
 import javax.swing.*;
 import java.awt.*;
 
@@ -62,7 +63,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
      */
     private JScrollPane scrollChannels;
     /**
-     * add rss channel button 
+     * add rss channel button
      */
     private JButton btnAddChannel;
     /**
@@ -86,9 +87,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
      */
     private JScrollPane scrollItems;
 
-    private LinkedHashMap<String,Feed> channelMap = new LinkedHashMap<String, Feed>();
-
-    private ArrayList<Feed> channelArray = new ArrayList<Feed>();
+    private LinkedHashMap<String, Feed> channelMap = new LinkedHashMap<String, Feed>();
 
     private ArrayList<String> itemsLinks = new ArrayList<String>();
     /**
@@ -104,8 +103,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
      */
     private JMenuItem deleteChannel;
 
-
-    public RSS_GUI() {
+    private RSS_GUI() {
         super("RssGUI");
         setVisible(true);
         setBounds(50, 50, 700, 600);
@@ -119,7 +117,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         setContentPane(scrollPanel);
 
         lblChannel = new JLabel("Channels");
-        c = new GridBagConstraints(0,0,1,1,0.0,1.0,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),0,0);
+        c = new GridBagConstraints(0, 0, 1, 1, 0.0, 1.0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
         panel.add(lblChannel, c);
 
         channels = new DefaultListModel();
@@ -127,29 +125,29 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         channelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         channelList.setVisibleRowCount(-1);
         scrollChannels = new JScrollPane(channelList);
-        c = new GridBagConstraints(0,1,2,1,0.0,300,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,200);
+        c = new GridBagConstraints(0, 1, 2, 1, 0.0, 300, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 500, 200);
         panel.add(scrollChannels, c);
 
         btnAddChannel = new JButton("Add rss");
         btnAddChannel.setBounds(0, 0, 50, 50);
-        c = new GridBagConstraints(0,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,5);
+        c = new GridBagConstraints(0, 2, 1, 1, 0.0, 100000, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 5, 5);
         panel.add(btnAddChannel, c);
 
         urlTxtField = new JTextField("http://rss.cnn.com/rss/cnn_topstories.rss");
-        c = new GridBagConstraints(1,2,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
+        c = new GridBagConstraints(1, 2, 1, 1, 0.0, 100000, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 5, 12);
         panel.add(urlTxtField, c);
 
         lblItems = new JLabel("Channel items");
-        c = new GridBagConstraints(0,3,1,1,0.0,100000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),5,12);
+        c = new GridBagConstraints(0, 3, 1, 1, 0.0, 100000, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 5, 12);
         panel.add(lblItems, c);
 
         items = new DefaultListModel();
         itemList = new JList(items);
-        c = new GridBagConstraints(0,4,2,1,0.0,10000000,GridBagConstraints.FIRST_LINE_START,GridBagConstraints.HORIZONTAL,new Insets(0, 0, 0, 0),500,200);
+        c = new GridBagConstraints(0, 4, 2, 1, 0.0, 10000000, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 500, 200);
         itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemList.setVisibleRowCount(-1);
         scrollItems = new JScrollPane(itemList);
-        panel.add(scrollItems,c);
+        panel.add(scrollItems, c);
 
         popMenu = new JPopupMenu();
         showChannelItems = new JMenuItem("channel items");
@@ -165,7 +163,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
         String URLs = null;
         try {
-            URLs = HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=get");
+            URLs = HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "rss/?action=get");
             System.out.println(URLs);
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,8 +177,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
             RSSFeedParser parser = new RSSFeedParser(o.toString());
             Feed feed = parser.readFeed();
             channels.addElement(feed.getDescription());
-            channelArray.add(feed);
-            channelMap.put(o.toString(),feed);//
+            channelMap.put(o.toString(), feed);
         }
     }
 
@@ -195,21 +192,23 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnAddChannel) {
-            String urlFeed = urlTxtField.getText();
-            try {
-                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "rss/?action=add&content=" + urlFeed));
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-
+        Map<String, Object> map = null;
+        if (e.getSource() == btnAddChannel) {
             try {
                 //http://rssfeeds.usatoday.com/usatoday-NewsTopStories //error
-                RSSFeedParser parser = new RSSFeedParser(urlFeed);
+                RSSFeedParser parser = new RSSFeedParser(urlTxtField.getText());
                 Feed feed = parser.readFeed();
-                channels.addElement(feed.getDescription());
-                channelArray.add(feed);
-                channelMap.put(urlFeed,feed);
+                try {
+                    map = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "rss/?action=add&content=" + urlTxtField.getText()));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                if (map.get("status").toString().equals("Success")) {
+                    channels.addElement(feed.getDescription());
+                    channelMap.put(urlTxtField.getText(), feed);
+                }
+                else
+                    JOptionPane.showMessageDialog(this,map.get("status").toString(),"url exist",JOptionPane.WARNING_MESSAGE);
             } catch (Exception el) {
 
                 JOptionPane.showMessageDialog(this,
@@ -218,45 +217,39 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-        else if(e.getSource() == showChannelItems){
+        } else if (e.getSource() == showChannelItems) {
             int row = channelList.getSelectedIndex();
-            showRssMessagesInJList(row);
-        }
-        else if(e.getSource() == deleteChannel){
+            showItemsInJList(row);
+        } else if (e.getSource() == deleteChannel) {
             int row = channelList.getSelectedIndex();
             System.out.println(row);
 
             try {
-                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost+"rss/?action=del&content="+channelMap.keySet().toArray()[row]/*channelArray.get(row).getLink()*/));
+                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "rss/?action=del&content=" + channelMap.keySet().toArray()[row]));
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
 
-            ((DefaultListModel)channelList.getModel()).remove(row);
-            channelArray.remove(row);
-            channelMap.remove(row);
+            ((DefaultListModel) channelList.getModel()).remove(row);
+            channelMap.remove(channelMap.keySet().toArray()[row]);
         }
-
-
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource() == itemList){
-            if(SwingUtilities.isLeftMouseButton(e)){
-                if(e.getClickCount()==2){
+        if (e.getSource() == itemList) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                if (e.getClickCount() == 2) {
                     int row = itemList.getSelectedIndex();
                     try {
                         URL url = new URL(itemsLinks.get(row));
-                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop():null;
+                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                         desktop.browse(url.toURI());
+                    } catch (Exception el) {
                     }
-                    catch(Exception el){}
                 }
             }
-        }
-        else if(e.getSource() == channelList) {
+        } else if (e.getSource() == channelList) {
             if (isPressedOnItem(e)) {
 
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -265,7 +258,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                     if (e.getClickCount() == 2) {
 
                         int row = channelList.locationToIndex(e.getPoint());
-                        showRssMessagesInJList(row);
+                        showItemsInJList(row);
                     }
                 }
             }
@@ -274,7 +267,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(isPressedOnItem(e)) {
+        if (isPressedOnItem(e)) {
             if (SwingUtilities.isRightMouseButton(e)) {
                 int row = channelList.locationToIndex(e.getPoint());
                 channelList.setSelectedIndex(row);
@@ -288,25 +281,26 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         isPressedOnItem(e);
     }
 
-    private void showRssMessagesInJList(int channelIndex){
+    private void showItemsInJList(int channelIndex) {
         items.clear();
         itemsLinks.clear();
-        for (FeedMessage message : channelArray.get(channelIndex).getMessages()) {
+        for (FeedMessage message : channelMap.get(channelMap.keySet().toArray()[channelIndex]).getMessages()) {
             itemsLinks.add(message.getLink());
             String msg = new String();
-            msg+="Title: " + message.getTitle() +"\n Description: "+ message.getDescription();
+            msg += "Title: " + message.getTitle() + "\n Description: " + message.getDescription();
             items.addElement(msg);
         }
-        /*for(FeedMessage message : channelMap.get(channelIndex).getMessages()){
-            itemsLinks.add(message.getLink());
-            String msg = new String();
-            msg+="Title: " + message.getTitle() +"\n Description: "+ message.getDescription();
-            items.addElement(msg);
-        }*/
     }
 
-    private boolean isPressedOnItem(MouseEvent e){
-        if(channelList.getModel().getSize()>0) {
+    /**
+     * Check if mouse pressed on a blank area of of a list
+     * If a click is in an empty area then the current function will cause the list to not be highlighted in any row of th list and return false
+     * else true
+     * @param e
+     * @return
+     */
+    private boolean isPressedOnItem(MouseEvent e) {
+        if (channelList.getModel().getSize() > 0) {
             Rectangle r = channelList.getCellBounds(channelList.getFirstVisibleIndex(), channelList.getLastVisibleIndex());
             if (e.getPoint().getY() > r.getY() && e.getPoint().getY() < r.getMaxY()) {
                 return true;
@@ -322,9 +316,5 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    public Object getElementByIndex(LinkedHashMap map,int index){
-        return map.get( (map.values().toArray())[ index ] );
     }
 }
