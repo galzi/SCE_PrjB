@@ -80,14 +80,14 @@ public class OnThisDay_GUI extends JFrame {
     }
 
     private void extractData(String type) {
-        Map<String, Object> birthEvents = null;
+        Map<String, Object> Events = null;
         try {
-            birthEvents = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "history/?type=" + type + "&month=" + this.month + "&day=" + this.day));
+            Events = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "history/?type=" + type + "&month=" + this.month + "&day=" + this.day));
         } catch (Exception e1) {
             e1.printStackTrace();
         }
 
-        for (Object o : (ArrayList<Object>) birthEvents.get(type)) {
+        for (Object o : (ArrayList<Object>) Events.get(type)) {
             JLabel label = new JLabel("\u2022 " + ((Map) o).get("year").toString() + ": " + ((Map) o).get("text").toString());
             this.list.add(label);
             this.labels.add(label);

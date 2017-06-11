@@ -25,6 +25,11 @@
             die();
         }
 
+        if (checkInjection::check($_POST["username"]) or checkInjection::check($_POST["password"])) {
+            echo checkInjection::returnResponse(true);
+            die();
+        }
+
         if (!isset($_SESSION["User"]) or (isset($_SESSION["User"]) and $_SESSION["User"]->login() == $_SESSION["User"]->returnResponse(RegFailure::Login, false))) { // in case you've just registered
             $_SESSION["User"] = new User($_POST["username"], $_POST["password"]);
         }
@@ -36,16 +41,23 @@
             die();
         }
 
+        if (checkInjection::check($_POST["username"]) or checkInjection::check($_POST["password"])) {
+            echo checkInjection::returnResponse(true);
+            die();
+        }
+
         $_SESSION["User"] = new User($_POST["username"], $_POST["password"]);
         echo $_SESSION["User"]->register($SQL);
         echo $_SESSION["User"]->login($SQL);
     });
 
     $route->add('/rss', function() use ($SQL) {
-        $RSS = new RSS($_SESSION["User"]);
+        if (!isset($_SESSION["RSS"])) {
+            $_SESSION["RSS"] = new RSS($_SESSION["User"]);
+        }
 
         if ((isset($_GET["content"])) and (checkInjection::check($_GET["content"]))) {
-            echo $RSS->returnResponse(RSSFailure::IllegalChar);
+            echo $_SESSION["RSS"]->returnResponse(RSSFailure::IllegalChar);
             die();
         }
 
@@ -56,13 +68,13 @@
 
             switch ($_GET["action"]) {
                 case "add":
-                    echo $RSS->insert($_GET["content"], $SQL);
+                    echo $_SESSION["RSS"]->insert($_GET["content"], $SQL);
                     break;
                 case "del":
-                    $RSS->remove($_GET["content"], $SQL);;
+                    $_SESSION["RSS"]->remove($_GET["content"], $SQL);;
                     break;
                 case "get":
-                    echo $RSS->get($SQL);
+                    echo $_SESSION["RSS"]->get($SQL);
                     break;
             }
         } else {
@@ -71,7 +83,9 @@
     });
 
     $route->add('/todo', function() use ($SQL) {
-        $ToDo = new ToDo($_SESSION["User"]);
+        if (!isset($_SESSION["ToDo"])) {
+            $_SESSION["ToDo"] = new ToDo($_SESSION["User"]);
+        }
 
         if ((isset($_GET["content"])) and (checkInjection::check($_GET["content"]))) {
             echo checkInjection::returnResponse(true);
@@ -85,19 +99,19 @@
 
             switch ($_GET["action"]) {
                 case "add":
-                    echo $ToDo->insert($_GET["content"], $SQL);
+                    echo $_SESSION["ToDo"]->insert($_GET["content"], $SQL);
                     break;
                 case "del":
-                    $ToDo->remove($_GET["content"], $SQL);;
+                    $_SESSION["ToDo"]->remove($_GET["content"], $SQL);;
                     break;
                 case "get":
-                    echo $ToDo->get($SQL);
+                    echo $_SESSION["ToDo"]->get($SQL);
                     break;
                 case "check":
-                    $ToDo->check($_GET["content"], true, $SQL);
+                    $_SESSION["ToDo"]->check($_GET["content"], true, $SQL);
                     break;
                 case "uncheck":
-                    $ToDo->check($_GET["content"], false, $SQL);
+                    $_SESSION["ToDo"]->check($_GET["content"], false, $SQL);
                     break;
             }
         } else {
@@ -106,7 +120,9 @@
     });
 
     $route->add('/exchange', function() use ($SQL) {
-        $Exchange = new ExchangeRates($_SESSION["User"]);
+        if (!isset($_SESSION["Exchange"])) {
+            $_SESSION["Exchange"] = new Exchange($_SESSION["User"]);
+        }
 
         if ((isset($_GET["source"])) and (checkInjection::check($_GET["source"]))) {
             echo checkInjection::returnResponse(true);
@@ -125,13 +141,13 @@
 
             switch ($_GET["action"]) {
                 case "add":
-                    echo $Exchange->insert($_GET["source"] . "|" . $_GET["destination"], $SQL);
+                    echo $_SESSION["Exchange"]->insert($_GET["source"] . "|" . $_GET["destination"], $SQL);
                     break;
                 case "del":
-                    $Exchange->remove($_GET["source"] . "|" . $_GET["destination"], $SQL);
+                    $_SESSION["Exchange"]->remove($_GET["source"] . "|" . $_GET["destination"], $SQL);
                     break;
                 case "get":
-                    echo $Exchange->get($SQL);
+                    echo $_SESSION["Exchange"]->get($SQL);
                     break;
             }
         } else {
