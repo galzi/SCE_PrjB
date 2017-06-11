@@ -45,8 +45,8 @@ public class ToDoList_GUI extends JFrame {
         // get items from user
         Map<String, Object> toDoList = null;
         try {
-            System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=get"));
             toDoList = toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=get"));
+            // System.out.println(toDoList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,17 @@ public class ToDoList_GUI extends JFrame {
             checkBox.setSelected(check);
             label.setText(task);
         } else {
-            label.setText(JOptionPane.showInputDialog("Task"));
+            String task_ = JOptionPane.showInputDialog("Task");
+
+            try {
+                if (toMap(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=add&content=" + task_)).get("status").toString().equals("Success")) {
+                    label.setText(task_);
+                } else {
+                    return;
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
 
         ToDoList_GUI.this.done.add(checkBox);
@@ -128,14 +138,6 @@ public class ToDoList_GUI extends JFrame {
                 ToDoList_GUI.this.pan.repaint();
             }
         });
-
-        try {
-            if (!isFromServer) {
-                System.out.println(HttpUrlConnection.GetPageContent(HttpUrlConnection.serverHost + "todo/?action=add&content=" + label.getText()));
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
 
         ToDoList_GUI.this.repaint();
         ToDoList_GUI.this.pack();
