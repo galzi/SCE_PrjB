@@ -17,6 +17,7 @@ import java.util.*;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import static Comm.Comm.toMap;
 
@@ -53,11 +54,13 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
     /**
      * the content of the channel JList
      */
-    private DefaultListModel channels;
+    private DefaultTableModel channels;
+    //private DefaultListModel channels;
     /**
      * channel JList
      */
-    private JList channelList;
+    private JTable channelTable;
+    //private JList channelList;
     /**
      * scroll option for the channel JList
      */
@@ -120,11 +123,10 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         c = new GridBagConstraints(0, 0, 1, 1, 0.0, 1.0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
         panel.add(lblChannel, c);
 
-        channels = new DefaultListModel();
-        channelList = new JList(channels);
-        channelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        channelList.setVisibleRowCount(-1);
-        scrollChannels = new JScrollPane(channelList);
+
+        channels = new DefaultTableModel(new String[]{"title","link","description","languge","copyright","pubdate"},0);//new DefaultListModel();
+        channelTable = new JTable(channels);
+        scrollChannels = new JScrollPane(channelTable);//scrollChannels = new JScrollPane(channelList);
         c = new GridBagConstraints(0, 1, 2, 1, 0.0, 300, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 500, 200);
         panel.add(scrollChannels, c);
 
@@ -158,7 +160,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         showChannelItems.addActionListener(this);
         deleteChannel.addActionListener(this);
         btnAddChannel.addActionListener(this);
-        channelList.addMouseListener(this);
+        channelTable.addMouseListener(this);
         itemList.addMouseListener(this);
 
         String URLs = null;
@@ -176,7 +178,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
 
             RSSFeedParser parser = new RSSFeedParser(o.toString());
             Feed feed = parser.readFeed();
-            channels.addElement(feed.getDescription());
+            channels.addRow(new String[]{feed.getTitle(),feed.getLink(),feed.getDescription(),feed.getLanguage(),feed.getCopyright(),feed.getPubDate()});//channels.addElement(feed.getDescription());
             channelMap.put(o.toString(), feed);
         }
     }
@@ -204,7 +206,7 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                     e1.printStackTrace();
                 }
                 if (map.get("status").toString().equals("Success")) {
-                    channels.addElement(feed.getDescription());
+                    channels.addRow(new String[]{feed.getTitle(),feed.getLink(),feed.getDescription(),feed.getLanguage(),feed.getCopyright(),feed.getPubDate()});//channels.addElement(feed.getDescription());//channels.addElement(feed.getDescription());
                     channelMap.put(urlTxtField.getText(), feed);
                 }
                 else
@@ -218,10 +220,10 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                 return;
             }
         } else if (e.getSource() == showChannelItems) {
-            int row = channelList.getSelectedIndex();
+            int row = channelTable.getSelectedRow();
             showItemsInJList(row);
         } else if (e.getSource() == deleteChannel) {
-            int row = channelList.getSelectedIndex();
+            int row = channelTable.getSelectedRow();
             System.out.println(row);
 
             try {
@@ -230,13 +232,14 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                 e1.printStackTrace();
             }
 
-            ((DefaultListModel) channelList.getModel()).remove(row);
+            channels.removeRow(row);
             channelMap.remove(channelMap.keySet().toArray()[row]);
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
         if (e.getSource() == itemList) {
             if (SwingUtilities.isLeftMouseButton(e)) {
                 if (e.getClickCount() == 2) {
@@ -249,36 +252,24 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
                     }
                 }
             }
-        } else if (e.getSource() == channelList) {
-            if (isPressedOnItem(e)) {
-
+        } else if (e.getSource() == channelTable) {
                 if (SwingUtilities.isRightMouseButton(e)) {
                     popMenu.show(e.getComponent(), e.getX(), e.getY());
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    if (e.getClickCount() == 2) {
-
-                        int row = channelList.locationToIndex(e.getPoint());
+                        int row = channelTable.rowAtPoint(e.getPoint());
                         showItemsInJList(row);
-                    }
                 }
-            }
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isPressedOnItem(e)) {
-            if (SwingUtilities.isRightMouseButton(e)) {
-                int row = channelList.locationToIndex(e.getPoint());
-                channelList.setSelectedIndex(row);
-            }
-        }
-
+        int row = channelTable.rowAtPoint(e.getPoint());
+        channelTable.setRowSelectionInterval(row,row);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        isPressedOnItem(e);
     }
 
     private void showItemsInJList(int channelIndex) {
@@ -292,29 +283,12 @@ public class RSS_GUI extends JFrame implements ActionListener , MouseListener {
         }
     }
 
-    /**
-     * Check if mouse pressed on a blank area of of a list
-     * If a click is in an empty area then the current function will cause the list to not be highlighted in any row of th list and return false
-     * else true
-     * @param e
-     * @return
-     */
-    private boolean isPressedOnItem(MouseEvent e) {
-        if (channelList.getModel().getSize() > 0) {
-            Rectangle r = channelList.getCellBounds(channelList.getFirstVisibleIndex(), channelList.getLastVisibleIndex());
-            if (e.getPoint().getY() > r.getY() && e.getPoint().getY() < r.getMaxY()) {
-                return true;
-            }
-        }
-        channelList.clearSelection();
-        return false;
-    }
-
     @Override
     public void mouseEntered(MouseEvent e) {
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+
     }
 }
