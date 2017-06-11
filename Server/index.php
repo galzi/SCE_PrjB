@@ -160,7 +160,7 @@
         $month = isset($_GET["month"]) ? $_GET["month"] : null;
         $day = isset($_GET["day"]) ? $_GET["day"] : null;
 
-        echo History::getHistory($_GET["type"], $_GET["month"], $_GET["day"]);
+        echo History::getHistory($type, $month, $day);
     });
 
     $route->submit();
